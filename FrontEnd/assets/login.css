@@ -1,8 +1,3 @@
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -52,10 +47,12 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+    background-color: #fcfbf7 ;
 }
 header {
 	display: flex;
 	justify-content: space-between;
+
 	margin: 50px 0
 }
 section {
@@ -100,120 +97,71 @@ li:hover {
 }
 #login-link {
     color: black;
+    font-weight: bold;
 	text-decoration: none;
 }
-#login-link:hover {
-color: #B1663C;
-}
-#introduction {
+
+.container {
 	display: flex;
-	align-items: center;
+    justify-content: center;
+	padding-bottom: 2rem;
+	margin-top: 8rem;
 }
-#introduction figure {
-	flex: 1
-}
-#introduction img {
-	display: block;
-	margin: auto;
-	width: 80%;
-}
-
-#introduction article {
-	flex: 1
-}
-#introduction h2 {
-	margin-bottom: 1em;
-}
-
-#introduction p {
-	margin-bottom: 0.5em;
-}
-.buttons-container {
-  display: flex;
-  justify-content: center;
-}
-
-button {
-	width: 10rem;
-	height: 2rem;
-	border-radius: 2rem;
-	border: #1D6154 solid 2px;
-	margin-left: 1rem;
-	margin-bottom: 2rem;
-	color: #1D6154;
-	font: inherit;
+.LoginUp {
+	color: #1D6154; 
+	position: absolute;
+	padding-top: 3rem;
 	
 }
-button:hover{
-	background-color: #1D6154;
-	color: white;
-	cursor: pointer;
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
 }
-#portfolio h2 {
-	text-align: center;
-	margin-bottom: 1em;
-}
-.gallery {
+input {
+    border: 1px solid white;
+    box-shadow: 7.8px 4.5px 6.9px rgba(0, 0, 0, 0.03),
+    62px 36px 55px rgba(0, 0, 0, 0.06);
 	width: 100%;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+    height: 3rem;
+    margin-top: 0.5rem;
 }
-
-.gallery img {
+button {
+    border: #1D6154;
+    border-radius: 1rem;
+    background-color: #1D6154;
+    color: white;
+    height: 2rem;
+    width: 200px;
+    margin: auto;
+    margin-top: 1rem;
+	font-weight: 600;
+}
+#forget {
+    color: black;
+	font-weight: 600;
+    margin: auto;
+    padding-top: 1rem;
+}
+footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
 	width: 100%;
-}
-.hidden {
-	display: none;
-}
-
-#contact {
-	width: 50%;
-margin: auto;
-}
-#contact > * {
-	text-align: center;
-
-}
-#contact h2{
-	margin-bottom: 20px;
-}
-#contact form {
-	text-align: left;
-	margin-top:30px;
-	display: flex;
-	flex-direction: column;
-}
-
-#contact input {
-	height: 50px;
-	font-size: 1.2em;
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-#contact label {
-	margin: 2em 0 1em 0;
-}
-#contact textarea {
-	border: none;
-	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-}
-
-input[type="submit"]{
-	font-family: 'Syne';
-	font-weight: 700;
-	color: white;
-	background-color: #1D6154;
-	margin : 2em auto ;
-	width: 180px;
-	text-align: center;
-	border-radius: 60px ;
-}
-
-footer nav ul {
+	height: 60px; /* Ajustez la hauteur selon vos besoins */
+  }
+  footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 3rem;
+	padding: 1rem;
+	list-style: none;
+  }
+.footer-list {
+	margin-top: auto;
 }
-
+  
