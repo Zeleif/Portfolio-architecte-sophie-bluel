@@ -167,6 +167,22 @@ button:hover{
 .hidden {
 	display: none;
 }
+.category-images {
+	display: flex;
+	flex-wrap: wrap;
+  }
+  
+  .image-container {
+	flex-basis: 25%;
+	padding: 10px;
+	box-sizing: border-box;
+  }
+  
+  .image-container img {
+	width: 100%;
+	height: auto;
+  }
+  
 
 #contact {
 	width: 50%;

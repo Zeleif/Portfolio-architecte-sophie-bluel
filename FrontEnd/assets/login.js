@@ -1,142 +1,91 @@
-// Récupérer les éléments HTML
-const loginForm = document.getElementById('login-form')
-const loginLink = document.getElementById('login-link')
-const logoutLink = document.getElementById('logout-link')
+const token = localStorage.getItem("token");
+console.log(token);
 
-// Fonction pour vérifier l'état de connexion
 const isLogged = () => {
-  const token = localStorage.getItem('token')
-  return token ? true : false
-}
-
-// Fonction pour mettre à jour l'état du bouton de connexion
-function updateLoginButton () {
-  const loginButton = document.getElementById('login-link')
-
-  if (isLogged()) {
-    loginButton.innerText = 'Logout'
+  if (token) {
+    return true;
   } else {
-    loginButton.innerText = 'Login'
+    return false;
   }
+};
 
-  console.log('updateLoginButton called') // Vérifiez si la fonction est appelée
-}
-
-// Vérifier l'état de connexion lors du chargement de la page
-document.addEventListener('DOMContentLoaded', function () {
-  updateLoginButton() // Appeler la fonction pour mettre à jour l'état du bouton de connexion lors du chargement de la page
-})
-
-// Ajouter un événement de soumission du formulaire de connexion
-loginForm.addEventListener('submit', function (event) {
-  event.preventDefault() // Empêcher le rechargement de la page
-  // Récupérer les valeurs des champs d'identification
-  const email = document.getElementById('Email').value
-  const password = document.getElementById('password').value
-
-  // Appeler la fonction de connexion avec les valeurs des champs d'identification
-  login(email, password)
-})
-
-// Ajouter un événement de clic sur le lien de déconnexion
-logoutLink.addEventListener('click', function (event) {
-  event.preventDefault() // Empêcher le rechargement de la page
-
-  // Appeler la fonction de déconnexion
-  logout()
-})
-
-// Fonction pour effectuer une requête de connexion
-function login (email, password) {
-  // Ajouter le compte de test
-  if (email === 'sophie.bluel@test.tld' && password === 'S0phie') {
-    // Si les identifiants sont corrects, effectuer les actions suivantes :
-
-    // Afficher le lien de déconnexion et masquer le lien de connexion
-    loginLink.style.display = 'none'
-    logoutLink.style.display = 'inline'
-
-    // Réinitialiser les valeurs des champs d'identification
-    loginForm.reset()
-
-    // Redirection vers index.html
-    window.location.href = 'index.html'
-
-    // Sortir de la fonction pour éviter d'effectuer la requête POST à votre API
-    return
+const updateHomepage = () => {
+  const loginButton = document.querySelector("#login-link");
+  if (isLogged()) {
+    console.log("connected");
+    loginButton.href = "#";
+    loginButton.innerHTML = "logout";
+    loginButton.addEventListener("click", () => {
+      localStorage.removeItem("token");
+      console.log("disconnected");
+      loginButton.innerHTML = "login";
+      window.location.reload();
+    });
+  } else {
+    loginButton.href = "./login.html";
   }
+};
 
-  // Effectuer ici la requête POST à votre API pour la connexion
+window.addEventListener("load", () => {
+  updateHomepage();
+});
+
+const loginForm = document.querySelector("#login-form");
+
+loginForm.addEventListener("submit", (event) => {
+  event.preventDefault(); // Empêche la soumission du formulaire de recharger la page
+
+  const emailInput = document.querySelector("#Email");
+  const passwordInput = document.querySelector("#password");
+
+  const email = emailInput.value;
+  const password = passwordInput.value;
+
+  // Appelez une fonction d'authentification avec l'e-mail et le mot de passe
+  authenticate(email, password);
+});
+
+const authenticate = (email, password) => {
   fetch('http://localhost:5678/api/users/login', {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
       email: email,
       password: password
     })
   })
-    .then(function (response) {
-      // Vérifier la réponse de l'API
+    .then(response => {
       if (response.ok) {
-        // Si la connexion réussit (réponse avec statut 200 OK), effectuer les actions suivantes :
-
-        // Afficher le lien de déconnexion et masquer le lien de connexion
-        loginLink.style.display = 'none'
-        logoutLink.style.display = 'inline'
-
-        // Réinitialiser les valeurs des champs d'identification
-        loginForm.reset()
-
-        // Redirection vers index.html
-        window.location.href = 'index.html'
+        // Authentification réussie
+        return response.json();
       } else {
-        // Si la connexion échoue (statut d'erreur), effectuer les actions suivantes :
-
-        // Afficher un message d'erreur à l'utilisateur ou prendre d'autres mesures appropriées
-        console.error('Échec de la connexion')
+        // Gestion des erreurs d'authentification
+        throw new Error("Échec de l'authentification");
       }
     })
-    .catch(function (error) {
-      // Si une erreur se produit lors de la requête, effectuer les actions suivantes :
+    .then(data => {
+      // Stockez le token dans le localStorage 
+      localStorage.setItem("token", data.token);
 
-      // Afficher un message d'erreur à l'utilisateur ou prendre d'autres mesures appropriées
-      console.error(error)
+      // Redirigez vers la page d'accueil après l'authentification réussie
+      window.location.href = "./index.html";
     })
-}
+    .catch(error => {
+      console.error("Erreur lors de l'authentification :", error);
+      // Affichez un message d'erreur à l'utilisateur
+    });
+};
 
-// Fonction pour effectuer une requête de déconnexion
-function logout () {
-  // Effectuer ici la requête POST à votre API pour la déconnexion
-  fetch('http://localhost:5678/api/users/logout', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-    .then(function (response) {
-      // Vérifier la réponse de l'API
-      if (response.ok) {
-        // Si la déconnexion réussit (réponse avec statut 200 OK), effectuer les actions suivantes :
 
-        // Afficher le lien de connexion et masquer le lien de déconnexion
-        loginLink.style.display = 'inline'
-        logoutLink.style.display = 'none'
 
-        // Redirection vers login.html
-        window.location.href = 'login.html'
-      } else {
-        // Si la déconnexion échoue (statut d'erreur), effectuer les actions suivantes :
 
-        // Afficher un message d'erreur à l'utilisateur ou prendre d'autres mesures appropriées
-        console.error('Échec de la déconnexion')
-      }
-    })
-    .catch(function (error) {
-      // Si une erreur se produit lors de la requête, effectuer les actions suivantes :
 
-      // Afficher un message d'erreur à l'utilisateur ou prendre d'autres mesures appropriées
-      console.error(error)
-    })
-}
+
+
+
+
+
+
+
