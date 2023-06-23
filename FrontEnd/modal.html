@@ -9,19 +9,35 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
 		rel="stylesheet">
-		<script src="https://kit.fontawesome.com/5dc5360e3d.js" crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/5dc5360e3d.js" crossorigin="anonymous"></script>
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/modal.css">
 </head>
 
 <body>
+	<div class="modal-container">
+		<div class="overlay modal-trigger"></div>
+		<div class="modal">
+			<div class="close-modal modal-trigger">X</div>
+			<h1>Galerie photo</h1>
+			<button class="modal-footer">Ajouter une photo</button>
+			<a href="modal-text">Supprimer la galerie</a>
+			<div class="gallery-container"></div>
+			<div class="image-container">
+				<div class="gallery-item">
+					<div class="icon-container"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<nav id="modal__header">
 		<ul>
-			<li><i class="fa-sharp fa-solid fa-pen-to-square"></i></li>
+			<li><i class="fa-sharp fa-solid fa-pen-to-square" id="icon"></i></li>
 			<li>Mode édition</li>
-			<li class="btn">Publier les changements</li>
+			<li class="modal-btn modal-trigger">Publier les changements</li>
 		</ul>
 	</nav>
+
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 		<nav>
@@ -38,7 +54,7 @@
 		<section id="introduction">
 			<figure>
 				<img src="./assets/images/sophie-bluel.png" alt="">
-                <i class="fa-sharp fa-solid fa-pen-to-square"></i>
+				<i class="fa-sharp fa-solid fa-pen-to-square"></i>
 			</figure>
 			<article>
 				<h2>Designer d'espace</h2>
@@ -53,7 +69,7 @@
 		</section>
 		<section id="portfolio">
 			<h2>Mes Projets<i class="fa-sharp fa-solid fa-pen-to-square"></i></h2>
-            
+
 			<div class="gallery">
 			</div>
 		</section>
@@ -79,6 +95,7 @@
 			</ul>
 		</nav>
 	</footer>
+	<script src="./assets/modal.js"></script>
 	<script src="./assets/script.js"></script>
 	<script src="./assets/filter.js"></script>
 	<script src="./assets/login.js"></script>
