@@ -9,37 +9,48 @@ const modalHeader = document.getElementById('modal__header');
 const galleryContainer = document.querySelector('.gallery-container');
 
 function displayGallery(images) {
-    galleryContainer.innerHTML = '';
+  galleryContainer.innerHTML = '';
+
+  images.forEach((image, i) => {
+    const imageContainer = document.createElement('div');
+    imageContainer.classList.add('image-container');
+
+    const imageElement = document.createElement('img');
+    imageElement.src = image.imageUrl;
+    imageElement.alt = image.title;
+    imageElement.classList.add('gallery-item');
+
+    const deleteIconContainer = document.createElement('div');
+    deleteIconContainer.classList.add('delete-icon');
+
+    const deleteIcon = document.createElement('i');
+    deleteIcon.classList.add('fa-regular', 'fa-trash-can');
+
+    deleteIconContainer.appendChild(deleteIcon);
+
+    const editText = document.createElement('span');
+    editText.textContent = 'Éditer';
+    editText.classList.add('edit-text');
+
+    imageContainer.appendChild(imageElement);
+    imageContainer.appendChild(deleteIconContainer);
+    imageContainer.appendChild(editText);
+
+    if (i === 0) {
+      const iconContainer = document.createElement('div');
+      iconContainer.classList.add('icon-container');
+      const upDownLeftRightIcon = document.createElement('i');
+      upDownLeftRightIcon.classList.add('fa', 'fa-up-down-left-right', 'custom-icon');
+      iconContainer.appendChild(upDownLeftRightIcon);
+
+      imageContainer.appendChild(iconContainer);
+    }
+
+    galleryContainer.appendChild(imageContainer);
+  });
+}
+
   
-    images.forEach(image => {
-      const imageContainer = document.createElement('div');
-      imageContainer.classList.add('image-container');
-  
-      const imageElement = document.createElement('img');
-      imageElement.src = image.imageUrl;
-      imageElement.alt = image.title;
-      imageElement.classList.add('gallery-item');
-  
-      const deleteIconContainer = document.createElement('div');
-      deleteIconContainer.classList.add('delete-icon');
-  
-      const deleteIcon = document.createElement('i');
-      deleteIcon.classList.add('fa-regular', 'fa-trash-can');
-  
-      deleteIconContainer.appendChild(deleteIcon);
-  
-      const editText = document.createElement('span');
-      editText.textContent = 'Éditer';
-      editText.classList.add('edit-text');
-  
-      imageContainer.appendChild(imageElement);
-      imageContainer.appendChild(deleteIconContainer);
-      imageContainer.appendChild(editText);
-  
-      galleryContainer.appendChild(imageContainer);
-    });
-  }
-      
 function fetchGallery() {
   fetch('http://localhost:5678/api/works')
     .then(response => {
