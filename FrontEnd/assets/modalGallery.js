@@ -24,7 +24,7 @@ function displayGallery(images) {
       deleteIconContainer.classList.add('delete-icon');
   
       const deleteIcon = document.createElement('i');
-      deleteIcon.classList.add('fa-solid', 'fa-trash-can');
+      deleteIcon.classList.add('fa-regular', 'fa-trash-can');
   
       deleteIconContainer.appendChild(deleteIcon);
   

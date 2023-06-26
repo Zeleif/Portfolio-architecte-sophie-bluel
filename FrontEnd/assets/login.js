@@ -21,9 +21,33 @@ const updateHomepage = () => {
       loginButton.innerHTML = "login";
       window.location.reload();
     });
+
+    updateStylesOnLogin(); // Appeler la fonction pour mettre à jour les styles lorsque l'utilisateur est connecté
   } else {
     loginButton.href = "./login.html";
   }
+};
+
+window.addEventListener("load", () => {
+  updateHomepage();
+});
+
+const updateStylesOnLogin = () => {
+  const modalHeader = document.querySelector("#modal__header");
+  const faSolidIcons = document.querySelectorAll(".fa-solid");
+  const dynamicButtonsContainer = document.querySelector(".buttons-container");
+
+  // Rendre le modal__header visible
+  modalHeader.style.display = "block";
+
+  // Afficher les icônes fa-solid
+  faSolidIcons.forEach(icon => {
+    icon.style.display = "inline"
+    
+  });
+
+  // Supprimer le conteneur des boutons créés dynamiquement
+  dynamicButtonsContainer.style.display = "none";
 };
 
 window.addEventListener("load", () => {
@@ -77,6 +101,8 @@ const authenticate = (email, password) => {
       // Affichez un message d'erreur à l'utilisateur
     });
 };
+
+
 
 
 
