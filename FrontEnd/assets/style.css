@@ -108,6 +108,9 @@ li:hover {
 #login-link:hover {
 color: #B1663C;
 }
+#logout-link {
+	display: none;
+}
 #introduction {
 	display: flex;
 	align-items: center;
@@ -137,15 +140,14 @@ color: #B1663C;
 }
 
 button {
-	width: 10rem;
+	min-width: 5rem;
 	height: 2rem;
 	border-radius: 2rem;
+	font-family: 'Syne';
 	border: #1D6154 solid 2px;
 	margin-left: 1rem;
 	margin-bottom: 2rem;
 	color: #1D6154;
-	font: inherit;
-	
 }
 button:hover{
 	background-color: #1D6154;

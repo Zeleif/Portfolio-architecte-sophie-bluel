@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajout photo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
+		rel="stylesheet">
+		<script src="https://kit.fontawesome.com/5dc5360e3d.js" crossorigin="anonymous"></script>
+	<meta name="description" content="">
+	<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body> 
+<div class="add-picture-gallery">
+<i class="fa-solid fa-arrow-left return-arrow"></i>
+<h1 class="title">Ajout photo</h1>
+<form class="addPictures">
+<div class="addImageContainer">
+<div class="img-container">
+<i class="fa-regular fa-image image-icon"></i>
+<label class="labal-imageFile" for="file">+ Ajouter photo</label>
+<input class="btn-addImage" type="file">
+<p class="file-type">jpg, png : 4mo max</p>
+<div>
+    <img class="preview-img" src="" alt="preview">
+</div>
+<div class="input-container">
+    <label for="add-title">Titre</label>
+    <input type="text" id="add-title">
+</div>
+<div class="input-container">
+    <label for="add-category">Catégorie</label>
+   <select name="category" id="add-category">
+   </select>
+</div>
+<button type="submit" class="validation-btn">Valider</button>
+</form>
+<p class="error-add"></p>
+</div>
+</div>
+</div>
+</body>
+</html>

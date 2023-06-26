@@ -25,7 +25,7 @@ const categoryDisplay = async () => {
   const portfolio = document.querySelector('#portfolio')
 
   const allButton = document.createElement('button')
-  allButton.textContent = 'Tout'
+  allButton.textContent = 'Tous'
   allButton.dataset.categoryId = 'all'
   allButton.addEventListener('click', () => {
     showAllImages()

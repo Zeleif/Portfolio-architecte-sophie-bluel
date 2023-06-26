@@ -1,0 +1,15 @@
+
+.add-picture-gallery {
+    display: flex; 
+    flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+
+.title h1{
+    margin-top: 20px;
+	color: black;
+	text-align: center;
+	font-family: 'Work Sans';
+	font-weight: lighter;
+}

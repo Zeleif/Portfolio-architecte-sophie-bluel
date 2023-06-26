@@ -39,9 +39,7 @@ function displayGallery(images) {
       galleryContainer.appendChild(imageContainer);
     });
   }
-  
-  
-    
+      
 function fetchGallery() {
   fetch('http://localhost:5678/api/works')
     .then(response => {

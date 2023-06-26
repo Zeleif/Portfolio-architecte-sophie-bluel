@@ -100,6 +100,9 @@ li:hover {
     font-weight: bold;
 	text-decoration: none;
 }
+#logout-link {
+	display: none;
+}
 
 .container {
 	display: flex;
