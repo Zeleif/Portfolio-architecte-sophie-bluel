@@ -39,6 +39,10 @@ const categoryDisplay = async () => {
   buttonsContainer.style.display = 'flex' // Utilisation de flexbox
   buttonsContainer.style.justifyContent = 'center' // Centrer les éléments horizontalement
 
+  if (isUserLoggedIn()) {
+    buttonsContainer.style.visibility = 'hidden' // Masquer les boutons si connecté(e)
+  }
+
   buttonsContainer.appendChild(allButton) // Ajouter le bouton "Tout" au début du conteneur des boutons
 
   categories.forEach(catData => {

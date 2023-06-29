@@ -4,9 +4,11 @@ const modal = document.querySelector('.modal');
 const closeModal = document.querySelector('.close-modal');
 const modalFooter = document.querySelector('.modal-footer');
 const modalText = document.querySelector('.modal-text');
-const modalBtn = document.querySelector('.modal-btn');
+const modalBtn = document.querySelector('.modal-bouton');
 const modalHeader = document.getElementById('modal__header');
 const galleryContainer = document.querySelector('.gallery-container');
+
+const imageIdsSet = new Set();
 
 function displayGallery(images) {
   galleryContainer.innerHTML = '';
@@ -25,6 +27,10 @@ function displayGallery(images) {
 
     const deleteIcon = document.createElement('i');
     deleteIcon.classList.add('fa-regular', 'fa-trash-can');
+
+    deleteIcon.addEventListener('click', () => {
+      deleteImage(image.id, imageContainer); // Appeler une fonction pour supprimer l'image
+    });
 
     deleteIconContainer.appendChild(deleteIcon);
 
@@ -47,10 +53,46 @@ function displayGallery(images) {
     }
 
     galleryContainer.appendChild(imageContainer);
+
+    imageIdsSet.add(image.id); // Ajouter l'ID de l'image à l'ensemble
   });
 }
 
-  
+function deleteImage(imageId, imageContainer) {
+  // Récupérer les informations d'identification de l'utilisateur authentifié
+  const authToken = localStorage.getItem('token');
+
+  // Vérifier si l'utilisateur est authentifié
+  if (!authToken) {
+    console.error('Utilisateur non authentifié');
+    return;
+  }
+
+  // Configurer les en-têtes de la requête avec les informations d'identification
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${authToken}`,
+  };
+
+  // Envoyer une requête HTTP DELETE pour supprimer l'image avec les en-têtes personnalisés
+  fetch(`http://localhost:5678/api/works/${imageId}`, {
+    method: 'DELETE',
+    headers: headers,
+  })
+    .then(response => {
+      if (response.ok) {
+        // Suppression réussie, mettre à jour la galerie
+        imageIdsSet.delete(imageId); // Supprimer l'ID de l'image de l'ensemble
+        galleryContainer.removeChild(imageContainer); // Supprimer le conteneur de l'image du DOM
+      } else {
+        throw new Error("Impossible de supprimer l'image");
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
 function fetchGallery() {
   fetch('http://localhost:5678/api/works')
     .then(response => {

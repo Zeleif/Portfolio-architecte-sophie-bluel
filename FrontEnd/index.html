@@ -13,6 +13,7 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<link rel="stylesheet" href="./assets/modalGallery.css">
+	<link rel="stylesheet" href="./assets/modalAddPhoto.css">
 </head>
 
 <body>
@@ -22,7 +23,7 @@
 			<div class="close-modal modal-trigger">X</div>
 			<h2>Galerie photo</h2>
 			<HR>
-			<button class="modal-footer">Ajouter une photo</button>
+			<button class="modal-footer open-add-picture-modal">Ajouter une photo</button>
 			<a href="modal-text">Supprimer la galerie</a>
 			<div class="gallery-container"></div>
 			<div class="image-container">
@@ -34,11 +35,11 @@
 	</div>
 	<nav id="modal__header">
 		<div class="modal-infos">
-		<ul>
-			<li><i class="fa-sharp fa-solid fa-pen-to-square" id="icon"></i></li>
-			<li>Mode édition</li>
-			<li class="modal-btn">Publier les changements</li>
-		</ul>
+			<ul>
+				<li><i class="fa-sharp fa-solid fa-pen-to-square" id="icon"></i></li>
+				<li>Mode édition</li>
+				<li class="modal-bouton">Publier les changements</li>
+			</ul>
 		</div>
 	</nav>
 
@@ -59,7 +60,7 @@
 			<figure>
 				<img src="./assets/images/sophie-bluel.png" alt="">
 				<div class="modif-img">
-				<i class="fa-sharp fa-solid fa-pen-to-square"><span class="modifier">Modifier</span></i>
+					<i class="fa-sharp fa-solid fa-pen-to-square"><span class="modifier">Modifier</span></i>
 				</div>
 			</figure>
 			<article>
@@ -74,7 +75,7 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>Mes Projets<i class="fa-sharp fa-solid fa-pen-to-square"></i></h2>
+			<h2>Mes Projets<i class="fa-sharp fa-solid fa-pen-to-square"><span class="modifier">Modifier</span></i></h2>
 			<div class="buttons-container"></div>
 			<div class="gallery">
 			</div>
@@ -102,6 +103,7 @@
 		</nav>
 	</footer>
 	<script src="./assets/modalGallery.js"></script>
+	<script src="./assets/modalAddPhoto.js"></script>
 	<script src="./assets/isConnected.js"></script>
 	<script src="./assets/filter.js"></script>
 	<script src="./assets/login.js"></script>
