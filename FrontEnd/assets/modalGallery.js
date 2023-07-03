@@ -123,3 +123,47 @@ function closeModalFunc() {
 modalBtn.addEventListener('click', openModal);
 closeModal.addEventListener('click', closeModalFunc);
 overlay.addEventListener('click', closeModalFunc);
+
+// Sélection du bouton "Ajouter une photo"
+const btnAddPhoto = document.querySelector('#btn-add-photo');
+
+// Ajout d'un gestionnaire d'événements au clic sur le bouton
+btnAddPhoto.addEventListener('click', function() {
+  // Afficher la deuxième modale
+  const modalAddPhoto = document.querySelector('.modal-add-photo');
+  modalAddPhoto.classList.add('active');
+});
+
+function addPhotoToGallery(photo) {
+  const imageContainer = document.createElement('div');
+  imageContainer.classList.add('image-container');
+
+  const imageElement = document.createElement('img');
+  imageElement.src = photo.imageUrl;
+  imageElement.alt = photo.title;
+  imageElement.classList.add('gallery-item');
+
+  const deleteIconContainer = document.createElement('div');
+  deleteIconContainer.classList.add('delete-icon');
+
+  const deleteIcon = document.createElement('i');
+  deleteIcon.classList.add('fa-regular', 'fa-trash-can');
+
+  deleteIcon.addEventListener('click', () => {
+    deleteImage(photo.id, imageContainer); // Appeler une fonction pour supprimer l'image
+  });
+
+  deleteIconContainer.appendChild(deleteIcon);
+
+  const editText = document.createElement('span');
+  editText.textContent = 'Éditer';
+  editText.classList.add('edit-text');
+
+  imageContainer.appendChild(imageElement);
+  imageContainer.appendChild(deleteIconContainer);
+  imageContainer.appendChild(editText);
+
+  galleryContainer.appendChild(imageContainer);
+
+  imageIdsSet.add(photo.id); // Ajouter l'ID de l'image à l'ensemble
+}

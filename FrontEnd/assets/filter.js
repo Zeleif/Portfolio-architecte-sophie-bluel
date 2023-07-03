@@ -1,3 +1,4 @@
+
 const fetchCategories = async () => {
   const response = await fetch('http://localhost:5678/api/categories')
   if (response.ok === true) {

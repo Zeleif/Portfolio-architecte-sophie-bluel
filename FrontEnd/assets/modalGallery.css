@@ -58,16 +58,16 @@
 	background-color: #1D6154;
 	color: white;
   }
-  HR {
+  hr {
 	position: relative;
-	top: 70%;
+	top: 65%;
 	width: 80%;
   }
   
   .modal a {
 	position: absolute;
 	top: 87%;
-	left: 40%;
+	left: 38%;
 	font-family: 'Syne';
 	color: #E80A0A;
 	font-weight: lighter;
