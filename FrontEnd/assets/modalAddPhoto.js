@@ -1,11 +1,9 @@
 const fileInput = document.querySelector('#file');
-const previewImgContainer = document.querySelector(".preview-img-container");
 const previewImg = document.querySelector(".preview-img");
 const addPhotoButton = document.querySelector('.addBtn-photo');
 
 
 fileInput.addEventListener('change', function(event) {
-  previewImgContainer.style.visibility = "visible";
   previewImg.style.visibility = "visible";
   const file = fileInput.files[0];
   const imageUrl = URL.createObjectURL(file);
@@ -15,10 +13,8 @@ fileInput.addEventListener('change', function(event) {
 
 // Ajoutez le nouvel écouteur d'événement "click" sur addPhotoButton
 addPhotoButton.addEventListener('click', async function(event) {
-  event.preventDefault();
   try {
     const imageUrl = await loadImageFromApi(); // Appel de la fonction pour charger l'image depuis l'API
-    previewImgContainer.style.visibility = "visible";
     previewImg.style.visibility = "visible";
     previewImg.src = imageUrl;
     console.log(imageUrl);
@@ -54,7 +50,7 @@ async function addProjectToApi(project) {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify(project),
     });
@@ -94,7 +90,6 @@ validateUpload.addEventListener("click", async function() {
       // Réinitialiser les champs du formulaire
       titleInput.value = "";
       categorySelect.value = "";
-      previewImgContainer.style.visibility = "hidden";
       previewImg.style.visibility = "hidden";
     } catch (error) {
       console.error(error);

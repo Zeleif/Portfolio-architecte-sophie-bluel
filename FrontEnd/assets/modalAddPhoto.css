@@ -107,16 +107,17 @@
   font-size: 12px;
 }
 .preview-img-container {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .preview-img {
   visibility: hidden;
-  position: absolute;
-  top: 7.2rem;
-  left: 18.2rem;
-}
+ width: 200px;
+ height: auto;
+
+} 
 
 .title-text {
   margin-top: 1rem;
