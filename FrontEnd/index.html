@@ -45,7 +45,10 @@
 			<div class="photo-container">
 				<i class="fas fa-image"></i>
 				<div class="btn-add">
-				  <label class="addBtn-photo" for="file">+ Ajouter photo<img class="preview-img" src="" alt="Preview"></label>
+					<label class="addBtn-photo" for="file">
+						<span id="addPhotoText">+ Ajouter photo</span>
+						<img class="preview-img" src="" alt="Preview" id="previewImg">
+					  </label>
 				  <input type="file" id="file" class="btn-addImage" accept="image/jpg, image/png">
 				</div>
 				<p class="add-style">jpg, png : 4mo max</p>
@@ -83,12 +86,12 @@
 
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
-		<nav>
+		<nav id= "login-form">
 			<ul>
 				<li>projets</li>
 				<li>contact</li>
 				<li class="connexion"><a href="#" id="login-link">Login</a></li>
-				<li class="deconnexion" style="display: none;"><a href="index.html" id="logout-link">Logout</a></li>
+				<li class="deconnexion"><a href="" id="logout-link">Logout</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
@@ -113,9 +116,9 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>Mes Projets<i class="fa-sharp fa-solid fa-pen-to-square"><span class="modifier">Modifier</span></i></h2>
+			<h2>Mes Projets<i class="fa-sharp fa-solid fa-pen-to-square" id="open-bouton"><span class="modifier">Modifier</span></i></h2>
 			<div class="buttons-container"></div>
-			<div class="gallery">
+			<div class="gallery" id="gallery">
 			</div>
 		</section>
 		<section id="contact">
@@ -140,12 +143,12 @@
 			</ul>
 		</nav>
 	</footer>
-	<script src="./assets/modalGallery.js"></script>
-	<script src="./assets/modalAddPhoto.js"></script>
+	<script src="./assets/login.js"></script>
 	<script src="./assets/isConnected.js"></script>
 	<script src="./assets/filter.js"></script>
-	<script src="./assets/login.js"></script>
+	<script src="./assets/modalGallery.js"></script>
 	<script src="./assets/script.js"></script>
+	<script src="./assets/modalAddPhoto.js"></script>
 </body>
 
 </html>

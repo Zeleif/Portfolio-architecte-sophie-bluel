@@ -4,7 +4,7 @@ const modal = document.querySelector('.modal');
 const closeModal = document.querySelector('.close-modal');
 const modalFooter = document.querySelector('.modal-footer');
 const modalText = document.querySelector('.modal-text');
-const modalBtn = document.querySelector('.modal-bouton');
+const modalBtn = document.querySelector('#open-bouton');
 const modalHeader = document.getElementById('modal__header');
 const galleryContainer = document.querySelector('.gallery-container');
 

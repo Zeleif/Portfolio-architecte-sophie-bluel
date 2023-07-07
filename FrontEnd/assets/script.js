@@ -1,16 +1,21 @@
 function fetchImages() {
   return new Promise((resolve, reject) => {
-    fetch('http://localhost:5678/api/works')
-      .then(response => {
-        if (response.ok) {
-          resolve(response.json());
-        } else {
-          reject(new Error('Impossible de contacter le serveur'));
-        }
-      })
-      .catch(error => {
-        reject(error);
-      });
+    fetch('http://localhost:5678/api/works', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        resolve(response.json());
+      } else {
+        reject(new Error('Impossible de contacter le serveur'));
+      }
+    })
+    .catch(error => {
+      reject(error);
+    });
   });
 }
 
