@@ -39,36 +39,38 @@ fileInput.addEventListener('change', function () {
 
 // Fonction pour vérifier si l'utilisateur est authentifié avant d'ajouter l'image
 async function addImageIfAuthenticated(imageData) {
-  const authToken = localStorage.getItem('token')
+  const authToken = localStorage.getItem('token');
 
   if (authToken) {
     try {
-      const formData = new FormData()
-      formData.append('image', imageData)
+      const formData = new FormData();
+      formData.append('image', imageData);
 
       const response = await fetch('http://localhost:5678/api/works', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${authToken}`,
+          'Content-Type': 'multipart/form-data' // Ajout de l'en-tête Content-Type
         },
-        body: formData,
-      })
+        body: formData
+      });
 
       if (response.ok) {
-        const addedProject = await response.json()
-        console.log('Image ajoutée avec succès')
-        return addedProject
+        const addedProject = await response.json();
+        console.log('Image ajoutée avec succès');
+        return addedProject;
       } else {
-        throw new Error("Échec de l'ajout de l'image")
+        throw new Error("Échec de l'ajout de l'image");
       }
     } catch (error) {
-      console.error(error)
-      throw error
+      console.error(error);
+      throw error;
     }
   } else {
-    throw new Error('Utilisateur non authentifié')
+    throw new Error('Utilisateur non authentifié');
   }
 }
+
 
 function addPhotoToGallery(photo) {
   const galleryContainer = document.querySelector('.gallery-container')
