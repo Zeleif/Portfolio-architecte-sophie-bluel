@@ -14,9 +14,9 @@ function handleFileInputChange() {
   const imageUrl = URL.createObjectURL(file);
   previewImg.src = imageUrl;
 
-  const reader = new FileReader();
-  reader.onload = handleFileLoad;
-  reader.readAsArrayBuffer(file);
+  // const reader = new FileReader();
+  // reader.onload = handleFileLoad;
+  // reader.readAsArrayBuffer(file);
 
   if (file.size > 4 * 1024 * 1024) {
     alert('La taille de la photo est trop importante (limite : 4 Mo).');
