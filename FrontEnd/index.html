@@ -38,22 +38,21 @@
 	<div class="modal-container modal-add-photo">
 		<div class="overlay modal-trigger"></div>
 		<div class="modal">
-		  <span class="material-symbols-outlined close-modal">close</span>
+		  <span class="material-symbols-outlined close-modal" id="close-modale">close</span>
 		  <span class="material-symbols-outlined return-arrow">arrow_back</span>
 		  <h2 class="add-title">Ajout photo</h2>
-		  <form method="post" action="" enctype="multipart/form-data">
+		  <form id="modal_ajout" method="post" action="" enctype="multipart/form-data">
 			<div class="photo-container">
-				<i class="fas fa-image"></i>
-				<div class="btn-add">
-					<label class="addBtn-photo" for="file">
-						<span id="addPhotoText">+ Ajouter photo</span>
-						<img class="preview-img" src="" alt="Preview" id="previewImg">
-					  </label>
-				  <input type="file" id="file" class="btn-addImage" accept="image/jpg, image/png">
-				</div>
-				<p class="add-style">jpg, png : 4mo max</p>
+			  <i class="fas fa-image"></i>
+			  <div class="btn-add">
+				<label class="addBtn-photo" for="file">
+				  <span id="addPhotoText">+ Ajouter photo</span>
+				  <img class="preview-img" src="" alt="Preview" id="previewImg">
+				</label>
+				<input type="file" id="file" class="btn-addImage" accept="image/jpg, image/png">
+			  </div>
+			  <p class="add-style">jpg, png : 4mo max</p>
 			</div>
-						
 			<div class="title-addPhoto">
 			  <h3 class="title-text">Titre</h3>
 			  <div class="add-photo-title-container">
@@ -61,29 +60,28 @@
 			  </div>
 			</div>
 			<div class="category-addPhoto">
-			  <h3 class="title-text">Catégorie</h3>
-			  <select id="add-photo-category">
-				<option value="categorie1"></option>
-				<option value="categorie2"></option>
-				<option value="categorie3"></option>
-			  </select>
-			</div>
-			<hr>
-			<button class="modal-btn" id="add-photo-button">Valider</button>
+				<h3 class="title-text">Catégorie</h3>
+				<select id="add-photo-category">
+				  <option value="categorie1"></option>
+				  <option value="categorie2"></option>
+				  <option value="categorie3"></option>
+				</select>
+			  </div>
+			  <hr>
+			  <button class="modal-btn" id="add-photo-button">Valider</button>
 		  </form>
 		</div>
-	</div>
+	  </div>
 	  
-	<nav id="modal__header">
+	  <nav id="modal__header">
 		<div class="modal-infos">
-			<ul>
-				<li><i class="fa-sharp fa-solid fa-pen-to-square" id="icon"></i></li>
-				<li>Mode édition</li>
-				<li class="modal-bouton">Publier les changements</li>
-			</ul>
+		  <ul>
+			<li><i class="fa-sharp fa-solid fa-pen-to-square" id="icon"></i></li>
+			<li>Mode édition</li>
+			<li class="modal-bouton">Publier les changements</li>
+		  </ul>
 		</div>
-	</nav>
-
+	  </nav>
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 		<nav id= "login-form">
@@ -118,8 +116,7 @@
 		<section id="portfolio">
 			<h2>Mes Projets<i class="fa-sharp fa-solid fa-pen-to-square" id="open-bouton"><span class="modifier">Modifier</span></i></h2>
 			<div class="buttons-container"></div>
-			<div class="gallery" id="gallery">
-			</div>
+			<div class="gallery" id="gallery"></div>
 		</section>
 		<section id="contact">
 			<h2>Contact</h2>

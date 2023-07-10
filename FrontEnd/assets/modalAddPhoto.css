@@ -20,7 +20,7 @@
 
 .modal {
   width: 95%;
-  max-width: 600px;
+  max-width: 540px;
   height: 650px;
   background: #fff;
   border-radius: 10px;
@@ -167,4 +167,7 @@
   color: white;
   font-size: 16px;
   cursor: pointer;
+}
+.modal-btn:hover {
+  background-color: gray;
 }
