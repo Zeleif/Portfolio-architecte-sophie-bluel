@@ -4,6 +4,7 @@ const previewImg = document.getElementById('previewImg');
 const addPhotoButton = document.querySelector('.addBtn-photo');
 const closeModalButtons = document.querySelectorAll('#close-modale');
 const returnArrowButton = document.querySelector('.return-arrow');
+const submitBtn = document.getElementById("add-photo-button");
 
 fileInput.addEventListener('change', handleFileInputChange);
 
@@ -14,10 +15,6 @@ function handleFileInputChange() {
   const imageUrl = URL.createObjectURL(file);
   previewImg.src = imageUrl;
 
-  // const reader = new FileReader();
-  // reader.onload = handleFileLoad;
-  // reader.readAsArrayBuffer(file);
-
   if (file.size > 4 * 1024 * 1024) {
     alert('La taille de la photo est trop importante (limite : 4 Mo).');
     ajoutPhotoBouton.value = '';
@@ -26,7 +23,9 @@ function handleFileInputChange() {
     return;
   }
 }
-function handleFileLoad() {
+submitBtn.addEventListener('click', handleFileLoad) 
+function handleFileLoad(e) {
+  e.preventDefault()
   const formData = new FormData();
   const image = fileInput.files[0];
   const title = document.getElementById('add-photo-title').value;

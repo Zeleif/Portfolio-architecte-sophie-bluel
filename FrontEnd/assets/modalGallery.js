@@ -42,21 +42,34 @@ function displayGallery(images) {
     imageContainer.appendChild(deleteIconContainer);
     imageContainer.appendChild(editText);
 
-    if (i === 0) {
-      const iconContainer = document.createElement('div');
-      iconContainer.classList.add('icon-container');
-      const upDownLeftRightIcon = document.createElement('i');
-      upDownLeftRightIcon.classList.add('fa', 'fa-up-down-left-right', 'custom-icon');
-      iconContainer.appendChild(upDownLeftRightIcon);
-
-      imageContainer.appendChild(iconContainer);
-    }
-
     galleryContainer.appendChild(imageContainer);
 
     imageIdsSet.add(image.id); // Ajouter l'ID de l'image à l'ensemble
+
+    // Code pour faire apparaître l'icône en survol de chaque image individuellement
+    const iconContainer = document.createElement('div');
+    iconContainer.classList.add('icon-container');
+    const upDownLeftRightIcon = document.createElement('i');
+    upDownLeftRightIcon.classList.add('fa', 'fa-up-down-left-right', 'custom-icon');
+    iconContainer.appendChild(upDownLeftRightIcon);
+
+    imageContainer.appendChild(iconContainer);
+
+    // Ajouter une classe pour cacher initialement l'icône
+    iconContainer.classList.add('hidden');
+
+    imageContainer.addEventListener('mouseover', () => {
+      iconContainer.classList.remove('hidden'); // Retirer la classe "hidden" lors du survol
+    });
+
+    imageContainer.addEventListener('mouseout', () => {
+      iconContainer.classList.add('hidden'); // Ajouter la classe "hidden" lorsque la souris quitte
+    });
   });
 }
+
+
+
 
 function deleteImage(imageId, imageContainer) {
   // Récupérer les informations d'identification de l'utilisateur authentifié
