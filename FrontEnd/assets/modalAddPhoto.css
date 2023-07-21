@@ -171,3 +171,7 @@
 .modal-btn:hover {
   background-color: gray;
 }
+.valid-btn {
+  background-color: #1D6154;
+  color: white;
+}

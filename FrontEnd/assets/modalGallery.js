@@ -178,3 +178,4 @@ function addPhotoToGallery(photo) {
 
   imageIdsSet.add(photo.id); // Ajouter l'ID de l'image à l'ensemble
 }
+

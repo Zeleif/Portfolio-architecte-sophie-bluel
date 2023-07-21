@@ -55,12 +55,13 @@ function handleFileLoad(e) {
   const token = localStorage.getItem('token');
 
   fetch('http://localhost:5678/api/works', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    body: formData,
-  })
+  method: 'POST',
+  headers: {
+    Authorization: `Bearer ${token}`, 
+  },
+  body: formData,
+})
+
     .then(handleImageUploadResponse)
     .then(data => {
       console.log('Image ajoutée avec succès:', data);
@@ -176,4 +177,27 @@ async function fetchCategoriesPhoto() {
 
 // Appel de la fonction pour récupérer les catégories et générer les options
 fetchCategoriesPhoto();
+
+
+// Fonction pour vérifier si les champs requis sont remplis
+function checkFields() {
+  const title = document.getElementById('add-photo-title').value;
+  const category = document.getElementById('add-photo-category').value;
+
+  const isFieldsFilled = title && category;
+
+  if (isFieldsFilled) {
+    submitBtn.classList.add('valid-btn'); // Ajouter la classe pour rendre le bouton vert
+  } else {
+    submitBtn.classList.remove('valid-btn'); // Supprimer la classe pour revenir à la couleur par défaut
+  }
+}
+
+// Écoutez les événements input et change sur les champs du formulaire
+const titleInput = document.getElementById('add-photo-title');
+const categoryInput = document.getElementById('add-photo-category');
+
+titleInput.addEventListener('input', checkFields);
+categoryInput.addEventListener('change', checkFields);
+
 
