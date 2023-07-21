@@ -68,9 +68,6 @@ function displayGallery(images) {
   });
 }
 
-
-
-
 function deleteImage(imageId, imageContainer) {
   // Récupérer les informations d'identification de l'utilisateur authentifié
   const authToken = localStorage.getItem('token');
@@ -93,7 +90,7 @@ function deleteImage(imageId, imageContainer) {
     headers: headers,
   })
     .then(response => {
-      if (response.ok) {
+      if (response.status === 204) {
         // Suppression réussie, mettre à jour la galerie
         imageIdsSet.delete(imageId); // Supprimer l'ID de l'image de l'ensemble
         galleryContainer.removeChild(imageContainer); // Supprimer le conteneur de l'image du DOM
@@ -105,6 +102,7 @@ function deleteImage(imageId, imageContainer) {
       console.error(error);
     });
 }
+
 
 function fetchGallery() {
   fetch('http://localhost:5678/api/works')

@@ -8,6 +8,7 @@ const submitBtn = document.getElementById("add-photo-button");
 
 fileInput.addEventListener('change', handleFileInputChange);
 
+
 function handleFileInputChange() {
   const file = fileInput.files[0];
 
@@ -19,18 +20,34 @@ function handleFileInputChange() {
     alert('La taille de la photo est trop importante (limite : 4 Mo).');
     ajoutPhotoBouton.value = '';
     previewImg.style.display = 'none';
-    addPhotoButton.disabled = true;
+    submitBtn.disabled = true;
     return;
   }
+  
+  submitBtn.disabled = false;
 }
-submitBtn.addEventListener('click', handleFileLoad) 
+
+submitBtn.addEventListener('click', handleFileLoad);
+
 function handleFileLoad(e) {
-  e.preventDefault()
-  const formData = new FormData();
-  const image = fileInput.files[0];
+  e.preventDefault();
+  
   const title = document.getElementById('add-photo-title').value;
   const category = document.getElementById('add-photo-category').value;
 
+  if (!title || !category) {
+    if (!title && !category) {
+        alert("Veuillez remplir le champ Titre et le champ Catégorie avant de soumettre.");
+    } else if (!title) {
+        alert("Veuillez remplir le champ Titre avant de soumettre.");
+    } else if (!category) {
+        alert("Veuillez remplir le champ Catégorie avant de soumettre.");
+    }
+    return;
+}
+
+  const formData = new FormData();
+  const image = fileInput.files[0];
   formData.append('image', image);
   formData.append('title', title);
   formData.append('category', category);
@@ -48,8 +65,7 @@ function handleFileLoad(e) {
     .then(data => {
       console.log('Image ajoutée avec succès:', data);
       // Ajouter la nouvelle photo à la galerie
-     
-      addPhotoToGallery(data, galleryContainerModal); // Utilisez la variable correcte pour le conteneur de la galerie
+      addPhotoToGallery(data, galleryContainerModal);
       closeModale(); // Fermer la modale
     })
     .catch(error => {
@@ -65,6 +81,7 @@ function handleImageUploadResponse(response) {
   }
 }
 
+
 function addPhotoToGallery(photo, galleryContainer) {
   const imageContainer = document.createElement('div');
   imageContainer.classList.add('image-container');
@@ -73,10 +90,10 @@ function addPhotoToGallery(photo, galleryContainer) {
   const imageElement = document.createElement('img');
 
   // Définir l'URL de l'image en utilisant l'attribut data-image-url
-  const imageUrl = photo.imageUrl; // Utilisez l'URL de l'image fournie par la réponse de l'API
+  const imageUrl = photo.imageUrl; // Utilisation de l'URL de l'image fournie par la réponse de l'API
   imageElement.setAttribute('data-image-url', imageUrl);
 
-  // Ajouter d'autres attributs et propriétés de l'image si nécessaire
+  // Ajouter d'autres attributs et propriétés de l'image
   imageElement.alt = 'Image';
   imageElement.classList.add('gallery-item');
 
