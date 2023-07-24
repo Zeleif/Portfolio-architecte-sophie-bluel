@@ -4,7 +4,6 @@
   top: 0;
   width: 100vw;
   height: 100vh;
-
 }
 
 .modal-container.active {
@@ -13,9 +12,12 @@
 
 .overlay {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   opacity: 0.7;
+  top: 0;
+  left: 0;
+  position: fixed;
 }
 
 .modal {
@@ -27,7 +29,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 .close-modal {
@@ -172,6 +173,6 @@
   background-color: gray;
 }
 .valid-btn {
-  background-color: #1D6154;
+  background-color: #1d6154;
   color: white;
 }

@@ -1,203 +1,186 @@
-const galleryContainerModal = document.querySelector('.gallery-container');
-const fileInput = document.getElementById('file');
-const previewImg = document.getElementById('previewImg');
-const addPhotoButton = document.querySelector('.addBtn-photo');
-const closeModalButtons = document.querySelectorAll('#close-modale');
-const returnArrowButton = document.querySelector('.return-arrow');
-const submitBtn = document.getElementById("add-photo-button");
+document.addEventListener('DOMContentLoaded', () => {
+  const closeModale = document.getElementById('close-modale')
+  const addPhotoButton = document.getElementById('add-photo-button')
+  const addPhotoTitleInput = document.getElementById('add-photo-title')
+  const addPhotoCategoryInput = document.getElementById('add-photo-category')
+  const fileInput = document.getElementById('file')
+  const previewImg = document.getElementById('previewImg')
+  const modalAddPhoto = document.querySelector('.modal-add-photo')
+  const galleryContainer = document.getElementById('gallery')
 
-fileInput.addEventListener('change', handleFileInputChange);
+  function addPhotoToModal (photo) {
+    const imageContainer = document.createElement('div')
+    imageContainer.classList.add('image-container')
+    imageContainer.dataset.id = photo.id // Ajouter un attribut data-id avec l'ID de la photo
 
+    const imageElement = document.createElement('img')
+    imageElement.src = photo.imageUrl
+    imageElement.alt = photo.title
+    imageElement.classList.add('gallery-item')
 
-function handleFileInputChange() {
-  const file = fileInput.files[0];
+    const deleteIconContainer = document.createElement('div')
+    deleteIconContainer.classList.add('delete-icon')
 
-  previewImg.style.visibility = 'visible';
-  const imageUrl = URL.createObjectURL(file);
-  previewImg.src = imageUrl;
+    const deleteIcon = document.createElement('i')
+    deleteIcon.classList.add('fa-regular', 'fa-trash-can')
 
-  if (file.size > 4 * 1024 * 1024) {
-    alert('La taille de la photo est trop importante (limite : 4 Mo).');
-    ajoutPhotoBouton.value = '';
-    previewImg.style.display = 'none';
-    submitBtn.disabled = true;
-    return;
-  }
-  
-  submitBtn.disabled = false;
-}
-
-submitBtn.addEventListener('click', handleFileLoad);
-
-function handleFileLoad(e) {
-  e.preventDefault();
-  
-  const title = document.getElementById('add-photo-title').value;
-  const category = document.getElementById('add-photo-category').value;
-
-  if (!title || !category) {
-    if (!title && !category) {
-        alert("Veuillez remplir le champ Titre et le champ Catégorie avant de soumettre.");
-    } else if (!title) {
-        alert("Veuillez remplir le champ Titre avant de soumettre.");
-    } else if (!category) {
-        alert("Veuillez remplir le champ Catégorie avant de soumettre.");
-    }
-    return;
-}
-
-  const formData = new FormData();
-  const image = fileInput.files[0];
-  formData.append('image', image);
-  formData.append('title', title);
-  formData.append('category', category);
-
-  const token = localStorage.getItem('token');
-
-  fetch('http://localhost:5678/api/works', {
-  method: 'POST',
-  headers: {
-    Authorization: `Bearer ${token}`, 
-  },
-  body: formData,
-})
-
-    .then(handleImageUploadResponse)
-    .then(data => {
-      console.log('Image ajoutée avec succès:', data);
-      // Ajouter la nouvelle photo à la galerie
-      addPhotoToGallery(data, galleryContainerModal);
-      closeModale(); // Fermer la modale
+    deleteIcon.addEventListener('click', () => {
+      deleteImage(photo.id, imageContainer) // Appeler une fonction pour supprimer l'image
     })
-    .catch(error => {
-      console.error(error);
-    });
-}
 
-function handleImageUploadResponse(response) {
-  if (response.ok) {
-    return response.json();
-  } else {
-    throw new Error("Erreur lors de l'ajout de l'image");
+    deleteIconContainer.appendChild(deleteIcon)
+
+    const editText = document.createElement('span')
+    editText.textContent = 'Éditer'
+    editText.classList.add('edit-text')
+
+    imageContainer.appendChild(imageElement)
+    imageContainer.appendChild(deleteIconContainer)
+    imageContainer.appendChild(editText)
+
+    galleryContainer.appendChild(imageContainer)
   }
-}
 
+  async function addPhoto () {
+    const photoTitle = addPhotoTitleInput.value
+    const photoCategory = addPhotoCategoryInput.value
+    const photoFile = fileInput.files[0]
 
-function addPhotoToGallery(photo, galleryContainer) {
-  const imageContainer = document.createElement('div');
-  imageContainer.classList.add('image-container');
+    const formData = new FormData()
+    formData.append('title', photoTitle)
+    formData.append('category', photoCategory)
+    formData.append('image', photoFile)
 
-  // Créer un nouvel élément img
-  const imageElement = document.createElement('img');
+    try {
+      const response = await fetch('http://localhost:5678/api/works', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+        body: formData
+      })
 
-  // Définir l'URL de l'image en utilisant l'attribut data-image-url
-  const imageUrl = photo.imageUrl; // Utilisation de l'URL de l'image fournie par la réponse de l'API
-  imageElement.setAttribute('data-image-url', imageUrl);
+      if (response.ok) {
+        const newPhoto = await response.json()
 
-  // Ajouter d'autres attributs et propriétés de l'image
-  imageElement.alt = 'Image';
-  imageElement.classList.add('gallery-item');
+        // Cacher les éléments d'ajout de photo
+        const addBtnLabel = document.getElementById('addBtnLabel')
+        const addStyleParagraph = document.getElementById('addStyleParagraph')
+        addBtnLabel.classList.add('hidden')
+        addStyleParagraph.classList.add('hidden')
 
-  // Ajouter l'image au conteneur de la galerie
-  galleryContainer.appendChild(imageElement);
+        // Ajouter la nouvelle photo à la galerie modale
+        addPhotoToModal(newPhoto)
 
-  const deleteIconContainer = document.createElement('div');
-  deleteIconContainer.classList.add('delete-icon');
+        // Déclencher l'événement personnalisé "photoAdded" avec les détails de la nouvelle photo
+        const event = new CustomEvent('photoAdded', { detail: newPhoto })
+        document.dispatchEvent(event)
 
-  const deleteIcon = document.createElement('i');
-  deleteIcon.classList.add('fa-regular', 'fa-trash-can');
+        // Vider les champs de la modale et fermer la modale
+        addPhotoTitleInput.value = ''
+        addPhotoCategoryInput.value = ''
+        fileInput.value = ''
+        previewImg.style.visibility = 'hidden'
+        previewImg.src = '#'
+        closeModaleFunc()
 
-  deleteIcon.addEventListener('click', () => {
-    deleteImage(photo.id, imageContainer); // Appeler une fonction pour supprimer l'image
-  });
-
-  deleteIconContainer.appendChild(deleteIcon);
-
-  const editText = document.createElement('span');
-  editText.textContent = 'Éditer';
-  editText.classList.add('edit-text');
-
-  imageContainer.appendChild(imageElement);
-  imageContainer.appendChild(deleteIconContainer);
-  imageContainer.appendChild(editText);
-
-  galleryContainer.appendChild(imageContainer);
-}
-
-function closeModale() {
-  const modalAddPhoto = document.querySelector('.modal-add-photo');
-  modalAddPhoto.classList.remove('active');
-}
-
-closeModalButtons.forEach(button => {
-  button.addEventListener('click', closeModale);
-});
-
-returnArrowButton.addEventListener('click', () => {
-  const modalGallery = document.querySelector('.modal-container');
-  const modalAddPhoto = document.querySelector('.modal-add-photo');
-
-  modalGallery.classList.add('active');
-  modalAddPhoto.classList.remove('active');
-});
-
-// Récupérer la référence du menu déroulant des catégories
-const categorySelect = document.querySelector('#add-photo-category');
-
-// Fonction pour générer les options du menu déroulant des catégories
-function generateCategoryOptions(categories) {
-  categories.forEach(category => {
-    const option = document.createElement('option');
-    option.value = category.id;
-    option.textContent = category.name;
-    categorySelect.appendChild(option);
-  });
-}
-
-async function fetchCategoriesPhoto() {
-  try {
-    const response = await fetch('http://localhost:5678/api/categories', {
-      method: 'GET',
-      headers: {
-        authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
-
-    if (response.ok) {
-      const categories = await response.json();
-      generateCategoryOptions(categories); // Appel de la fonction pour générer les options
-    } else {
-      throw new Error('Échec de la récupération des catégories');
+        // Mettre à jour la galerie principale
+        imageDisplay()
+      } else {
+        throw new Error("Impossible d'ajouter la photo")
+      }
+    } catch (error) {
+      console.error(error)
+      // Gérer l'erreur ici, par exemple, afficher un message d'erreur à l'utilisateur
     }
-  } catch (error) {
-    console.error(error);
-    throw error;
   }
-}
 
-// Appel de la fonction pour récupérer les catégories et générer les options
-fetchCategoriesPhoto();
+  addPhotoButton.addEventListener('click', async event => {
+    event.preventDefault()
+    addPhoto()
+  })
 
-
-// Fonction pour vérifier si les champs requis sont remplis
-function checkFields() {
-  const title = document.getElementById('add-photo-title').value;
-  const category = document.getElementById('add-photo-category').value;
-
-  const isFieldsFilled = title && category;
-
-  if (isFieldsFilled) {
-    submitBtn.classList.add('valid-btn'); // Ajouter la classe pour rendre le bouton vert
-  } else {
-    submitBtn.classList.remove('valid-btn'); // Supprimer la classe pour revenir à la couleur par défaut
+  function closeModaleFunc () {
+    modalAddPhoto.classList.remove('active')
+    fileInput.value = '' // Réinitialiser le champ de téléchargement
+    previewImg.style.display = 'none'
   }
-}
 
-// Écoutez les événements input et change sur les champs du formulaire
-const titleInput = document.getElementById('add-photo-title');
-const categoryInput = document.getElementById('add-photo-category');
+  closeModale.addEventListener('click', closeModaleFunc)
+  overlay.addEventListener('click', closeModaleFunc)
 
-titleInput.addEventListener('input', checkFields);
-categoryInput.addEventListener('change', checkFields);
+  fileInput.addEventListener('change', handleFileInputChange)
 
+  function handleFileInputChange () {
+    const file = fileInput.files[0]
 
+    previewImg.style.visibility = 'visible'
+    const imageUrl = URL.createObjectURL(file)
+    previewImg.src = imageUrl
+
+    if (file.size > 4 * 1024 * 1024) {
+      alert('La taille de la photo est trop importante (limite : 4 Mo).')
+      fileInput.value = '' // Réinitialiser le champ de téléchargement
+      previewImg.style.display = 'none'
+      addPhotoButton.disabled = true
+      return
+    }
+
+    addPhotoButton.disabled = false
+  }
+
+  // Récupérer la référence du menu déroulant des catégories
+  const categorySelect = document.querySelector('#add-photo-category')
+
+  // Fonction pour générer les options du menu déroulant des catégories
+  function generateCategoryOptions (categories) {
+    categories.forEach(category => {
+      const option = document.createElement('option')
+      option.value = category.id
+      option.textContent = category.name
+      categorySelect.appendChild(option)
+    })
+  }
+
+  async function fetchCategoriesPhoto () {
+    try {
+      const response = await fetch('http://localhost:5678/api/categories', {
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+
+      if (response.ok) {
+        const categories = await response.json()
+        generateCategoryOptions(categories) // Appel de la fonction pour générer les options
+      } else {
+        throw new Error('Échec de la récupération des catégories')
+      }
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+
+  // Appel de la fonction pour récupérer les catégories et générer les options
+  fetchCategoriesPhoto()
+
+  // Fonction pour vérifier si les champs requis sont remplis
+  function checkFields () {
+    const title = addPhotoTitleInput.value
+    const category = addPhotoCategoryInput.value
+
+    const isFieldsFilled = title && category
+
+    if (isFieldsFilled) {
+      addPhotoButton.classList.add('valid-btn') // Ajouter la classe pour rendre le bouton vert
+    } else {
+      addPhotoButton.classList.remove('valid-btn') // Supprimer la classe pour revenir à la couleur par défaut
+    }
+  }
+
+  // Écoutez les événements input et change sur les champs du formulaire
+  addPhotoTitleInput.addEventListener('input', checkFields)
+  addPhotoCategoryInput.addEventListener('change', checkFields)
+})
