@@ -86,9 +86,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 1rem; 
 }
-
+.btn-add.hide-btn-add label {
+  display: none;
+}
 .addBtn-photo {
   border: none;
   border-radius: 30px;
@@ -97,8 +99,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 12rem;
-  height: 35px;
+  width: 173px;
+  height: 36px;
   line-height: 100px;
   font-weight: 600;
   color: #2d7a94;
@@ -134,10 +136,11 @@
 
 #previewImg {
   position: absolute;
-  max-height: 169px;
+  max-height: 176px;
   top: 6rem;
   object-fit: contain;
   padding-bottom: 3.5rem;
+  z-index: 100;
 }
 
 .title-text {

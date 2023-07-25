@@ -99,6 +99,14 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault()
     addPhoto()
   })
+  
+  // Ajoutez un événement au bouton de retour pour revenir à la galerie modale
+  const backButton = document.querySelector('.return-arrow');
+  if (backButton) {
+    backButton.addEventListener('click', () => {
+      closeModaleFunc(); // Fermez simplement la modale d'ajout de photo
+    });
+  }
 
   function closeModaleFunc () {
     modalAddPhoto.classList.remove('active')
