@@ -22,8 +22,8 @@
 
 .modal {
   width: 95%;
-  max-width: 540px;
-  height: 650px;
+  max-width: 630px;
+  height: 670px;
   background: #fff;
   border-radius: 10px;
   display: flex;
@@ -50,9 +50,14 @@
   cursor: pointer;
   size: 16px;
 }
+#modal_ajout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .modal h2 {
-  margin-top: 30px;
+  margin-top: 40px;
   color: black;
   text-align: center;
   font-family: 'Work Sans';
@@ -60,8 +65,11 @@
 }
 
 .photo-container {
-  width: 500px;
-  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 420px;
+  height: 169px;
   margin-top: 2rem;
   padding-top: 0.5rem;
   background-color: aliceblue;
@@ -72,7 +80,6 @@
   color: #d1d6dc;
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
 }
 
 .btn-add {
@@ -106,7 +113,7 @@
 .add-style {
   position: absolute;
   left: 40%;
-  top: 16rem;
+  top: 15rem;
   margin: 0;
   font-family: 'Work Sans';
   font-size: 12px;
@@ -127,8 +134,8 @@
 
 #previewImg {
   position: absolute;
-  max-width: 200px;
-  max-height: 200px;
+  max-height: 169px;
+  top: 6rem;
   object-fit: contain;
   padding-bottom: 3.5rem;
 }
@@ -141,17 +148,17 @@
 }
 
 .add-photo-title-container input {
-  width: 500px;
-  height: 60px;
+  width: 420px;
+  height: 51px;
   margin-bottom: 1rem;
   border: none;
   box-shadow: 0 2px 8px 0px rgba(133, 132, 132, 0.2);
 }
 
 .category-addPhoto select {
-  width: 500px;
-  height: 60px;
-  margin-bottom: 2rem;
+  width: 420px;
+  height: 51px;
+  margin-bottom: 3rem;
   border: none;
   box-shadow: 0 2px 8px 0px rgba(133, 132, 132, 0.2);
 }
@@ -159,20 +166,22 @@
 .modal-btn {
   border: none;
   border-radius: 30px;
-  width: 18rem;
-  height: 2.5rem;
-  margin-left: 6rem;
+  width: 237px;
+  height: 36px;
   font-weight: bold;
-  margin-top: 1rem;
+  margin-top: 2rem;
   background-color: gray;
   color: white;
   font-size: 16px;
   cursor: pointer;
 }
-.modal-btn:hover {
-  background-color: gray;
-}
+
 .valid-btn {
   background-color: #1d6154;
   color: white;
+}
+hr {
+position: relative;
+width: 80%;
+top: 0;
 }

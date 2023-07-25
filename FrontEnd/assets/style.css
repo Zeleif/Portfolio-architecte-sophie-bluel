@@ -140,20 +140,17 @@ color: #B1663C;
 }
 
 button {
-	min-width: 5rem;
-	height: 2rem;
+	width: 237px;
+	height: 36px;
 	border-radius: 2rem;
 	font-family: 'Syne';
 	border: #1D6154 solid 2px;
 	margin-left: 1rem;
 	margin-bottom: 2rem;
 	color: #1D6154;
-}
-button:hover{
-	background-color: #1D6154;
-	color: white;
 	cursor: pointer;
 }
+
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
