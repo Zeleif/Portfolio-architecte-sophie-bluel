@@ -154,6 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (response.ok) {
         const categories = await response.json()
         generateCategoryOptions(categories) // Appel de la fonction pour générer les options
+        addPhotoTitleInput.addEventListener('input', checkFields)
+        addPhotoCategoryInput.addEventListener('change', checkFields)
       } else {
         throw new Error('Échec de la récupération des catégories')
       }
@@ -166,21 +168,46 @@ document.addEventListener('DOMContentLoaded', () => {
   // Appel de la fonction pour récupérer les catégories et générer les options
   fetchCategoriesPhoto()
 
-  // Fonction pour vérifier si les champs requis sont remplis
-  function checkFields () {
-    const title = addPhotoTitleInput.value
-    const category = addPhotoCategoryInput.value
+  let isPhotoFilled = false;
+  let isTitleFilled = false;
+  let isCategoryFilled = false;
+  let isCategoryChanged = false;
 
-    const isFieldsFilled = title && category
+  // Fonction pour vérifier si le champ de la catégorie est rempli manuellement
+  function checkCategoryChange() {
+    isCategoryChanged = true;
+    checkFields();
+  }
+
+  function checkFields() {
+    const photoFile = fileInput.files[0];
+    const title = addPhotoTitleInput.value.trim();
+    const category = addPhotoCategoryInput.value;
+
+    isPhotoFilled = photoFile ? true : false;
+    isTitleFilled = title !== '' ? true : false;
+    isCategoryFilled = isCategoryChanged && category !== '' ? true : false;
+
+    console.log('photoFile:', photoFile);
+    console.log('title:', title);
+    console.log('category:', category);
+
+    const isFieldsFilled = isPhotoFilled && isTitleFilled && isCategoryFilled;
 
     if (isFieldsFilled) {
-      addPhotoButton.classList.add('valid-btn') // Ajouter la classe pour rendre le bouton vert
+      addPhotoButton.classList.add('valid-btn'); // Ajouter la classe pour rendre le bouton vert
     } else {
-      addPhotoButton.classList.remove('valid-btn') // Supprimer la classe pour revenir à la couleur par défaut
+      addPhotoButton.classList.remove('valid-btn'); // Supprimer la classe pour revenir à la couleur par défaut
     }
   }
 
-  // Écoutez les événements input et change sur les champs du formulaire
-  addPhotoTitleInput.addEventListener('input', checkFields)
-  addPhotoCategoryInput.addEventListener('change', checkFields)
-})
+  // Écoutez les événements input sur le champ du titre
+  addPhotoTitleInput.addEventListener('input', checkFields);
+
+  // Écoutez les événements change sur le champ de la catégorie
+  addPhotoCategoryInput.addEventListener('change', checkCategoryChange);
+
+  // Écoutez les événements change sur le champ de la photo
+  fileInput.addEventListener('change', checkFields);
+
+});
