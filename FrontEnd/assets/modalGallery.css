@@ -25,9 +25,8 @@
 	background: #fff;
 	border-radius: 10px;
 	position: absolute;
-	top: 50%;
-	left: 25%;
-	transform: translateY(-50%);
+	top: 7rem;
+	left: 17rem;
   }
   
   .close-modal {

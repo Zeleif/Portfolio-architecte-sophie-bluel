@@ -1,4 +1,5 @@
 function fetchImages() {
+   // Fonction pour effectuer une requête GET au serveur pour récupérer les images
   return new Promise((resolve, reject) => {
     fetch('http://localhost:5678/api/works', {
       method: 'GET',
@@ -8,9 +9,9 @@ function fetchImages() {
     })
       .then(response => {
         if (response.ok) {
-          resolve(response.json());
+          resolve(response.json()); // Résoudre la promesse avec les données JSON renvoyées par le serveur
         } else {
-          reject(new Error('Impossible de contacter le serveur'));
+          reject(new Error('Impossible de contacter le serveur'));// Rejeter la promesse en cas d'erreur de requête
         }
       })
       .catch(error => {
@@ -20,8 +21,9 @@ function fetchImages() {
 }
 
 const imageDisplay = async () => {
+   // Fonction asynchrone pour afficher les images
   try {
-    const images = await fetchImages();
+    const images = await fetchImages();// Récupérer les images à partir du serveur en utilisant await
     const galleryDiv = document.querySelector('.gallery');
 
     galleryDiv.innerHTML = ''; // Réinitialiser la galerie principale
@@ -44,6 +46,7 @@ const imageDisplay = async () => {
 };
 
 const showImagesByCategory = categoryId => {
+  // Fonction pour filtrer et afficher les images en fonction de leur catégorie
   const images = document.querySelectorAll('.gallery img');
   images.forEach(img => {
     const figure = img.parentElement;
@@ -56,6 +59,7 @@ const showImagesByCategory = categoryId => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Appeler la fonction imageDisplay lors du chargement du DOM pour afficher les images
   imageDisplay();
 });
 
@@ -128,7 +132,7 @@ function displayGallery(images) {
     });
   });
 }
-
+// fonction pour supprimer l'image
 function deleteImage(imageId, imageContainer) {
   // Récupérer les informations d'identification de l'utilisateur authentifié
   const authToken = localStorage.getItem('token');
@@ -166,7 +170,7 @@ function deleteImage(imageId, imageContainer) {
     console.error(error);
   });
 }
-
+// fonction pour supprimer l'image de la modale
 function deletePhotoFromModal(imageId) {
   const imageContainer = document.querySelector(`.image-container[data-id="${imageId}"]`);
   if (imageContainer) {
@@ -216,6 +220,7 @@ function deletePhotoFromModal(imageId) {
 
 
 function fetchGallery() {
+  // Fonction pour récupérer les images de la galerie à partir du serveur
   fetch('http://localhost:5678/api/works')
     .then(response => {
       if (response.ok) {
@@ -225,7 +230,7 @@ function fetchGallery() {
       }
     })
     .then(data => {
-      displayGallery(data);
+      displayGallery(data);// Appeler la fonction displayGallery() pour afficher les images de la galerie à partir des données JSON
     })
     .catch(error => {
       console.error(error);
@@ -268,7 +273,7 @@ btnAddPhoto.addEventListener('click', function() {
   const modalAddPhoto = document.querySelector('.modal-add-photo');
   modalAddPhoto.classList.add('active');
 });
-
+// Ajouter une photo à la galerie d'images affichée sur la page
 function addPhotoToGallery(photo, callback) {
   const imageContainer = document.createElement('div');
   imageContainer.classList.add('image-container');
@@ -326,8 +331,6 @@ function addPhotoToGallery(photo, callback) {
     callback();
   }
 }
-
-
 function deletePhotoFromModal(imageId) {
   const imageContainer = document.querySelector(`.image-container[data-id="${imageId}"]`);
   if (imageContainer) {
