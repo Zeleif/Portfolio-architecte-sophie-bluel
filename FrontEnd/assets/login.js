@@ -1,5 +1,6 @@
+// Récupérer le token d'authentification depuis le localStorage
 const token = localStorage.getItem('token')
-
+// Fonction qui vérifie si l'utilisateur est connecté en fonction de la présence du token
 const isLogged = () => {
   if (token) {
     return true
@@ -7,16 +8,16 @@ const isLogged = () => {
     return false
   }
 }
-
+// Fonction pour mettre à jour la page d'accueil en fonction de l'état de connexion de l'utilisateur
 const updateHomepage = () => {
   const loginButton = document.querySelector('#login-link')
   if (isLogged()) {
     loginButton.href = '#'
     loginButton.innerHTML = 'logout'
     loginButton.addEventListener('click', () => {
-      localStorage.removeItem('token')
+      localStorage.removeItem('token') // Déconnexion de l'utilisateur en supprimant le token du localStorage
       loginButton.innerHTML = 'login'
-      window.location.reload()
+      // window.location.reload() Recharger la page pour mettre à jour l'affichage
     })
 
     updateStylesOnLogin() // Appeler la fonction pour mettre à jour les styles lorsque l'utilisateur est connecté
@@ -24,11 +25,11 @@ const updateHomepage = () => {
     loginButton.href = './login.html'
   }
 }
-
+// Mettre à jour la page d'accueil lorsque la page est chargée
 window.addEventListener('load', () => {
   updateHomepage()
 })
-
+// Fonction pour mettre à jour les styles lorsque l'utilisateur est connecté
 const updateStylesOnLogin = () => {
   const modalHeader = document.querySelector('#modal__header')
   const faSolidIcons = document.querySelectorAll('.fa-solid')
@@ -49,12 +50,12 @@ const updateStylesOnLogin = () => {
 window.addEventListener('load', () => {
   updateHomepage()
 })
-
+// Gestionnaire d'événement lorsque le formulaire de connexion est soumis
 const loginForm = document.querySelector('#login-form')
-
 loginForm.addEventListener('submit', event => {
   event.preventDefault() // Empêche la soumission du formulaire de recharger la page
 
+// Récupérer les champs d'entrée de l'e-mail et du mot de passe
   const emailInput = document.querySelector('#Email')
   const passwordInput = document.querySelector('#password')
 
@@ -64,7 +65,7 @@ loginForm.addEventListener('submit', event => {
   // Appelez une fonction d'authentification avec l'e-mail et le mot de passe
   authenticate(email, password)
 })
-
+// Fonction pour envoyer une requête d'authentification avec l'e-mail et le mot de passe fournis
 const authenticate = (email, password) => {
   fetch('http://localhost:5678/api/users/login', {
     method: 'POST',

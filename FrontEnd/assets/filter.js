@@ -1,4 +1,4 @@
-
+// Fonction pour récupérer les catégories à partir du serveur
 const fetchCategories = async () => {
   const response = await fetch('http://localhost:5678/api/categories')
   if (response.ok === true) {
@@ -6,21 +6,21 @@ const fetchCategories = async () => {
   }
   throw new Error('Impossible de contacter le serveur')
 }
-
+// Fonction pour afficher toutes les images en réinitialisant l'affichage
 const showAllImages = () => {
   const figures = document.querySelectorAll('.gallery article')
   figures.forEach(figure => {
     figure.style.display = 'block' // Afficher l'image et son conteneur
   })
 }
-
+// Fonction pour afficher toutes les légendes
 const showAllCaptions = () => {
   const captions = document.querySelectorAll('.gallery figcaption')
   captions.forEach(caption => {
     caption.style.display = 'block' // Afficher la légende
   })
 }
-
+// Fonction pour afficher les catégories dans l'interface utilisateur
 const categoryDisplay = async () => {
   const categories = await fetchCategories()
   const portfolio = document.querySelector('#portfolio')
@@ -60,5 +60,5 @@ const categoryDisplay = async () => {
 
   portfolio.insertBefore(buttonsContainer, title.nextElementSibling) // Insérer le conteneur des boutons juste après le titre h2
 }
-
+// Appeler la fonction pour afficher les catégories dans l'interface utilisateur
 categoryDisplay()
