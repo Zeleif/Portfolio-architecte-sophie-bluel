@@ -17,9 +17,7 @@ const updateHomepage = () => {
     loginButton.addEventListener('click', () => {
       localStorage.removeItem('token') // Déconnexion de l'utilisateur en supprimant le token du localStorage
       loginButton.innerHTML = 'login'
-      // window.location.reload() Recharger la page pour mettre à jour l'affichage
     })
-
     updateStylesOnLogin() // Appeler la fonction pour mettre à jour les styles lorsque l'utilisateur est connecté
   } else {
     loginButton.href = './login.html'

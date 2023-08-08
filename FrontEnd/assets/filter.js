@@ -30,7 +30,7 @@ const categoryDisplay = async () => {
   allButton.dataset.categoryId = 'all'
   allButton.addEventListener('click', () => {
     showAllImages()
-    showAllCaptions() // Ajout de cette fonction pour afficher toutes les légendes
+    showAllCaptions() 
   })
 
   const title = portfolio.querySelector('h2')
@@ -46,15 +46,16 @@ const categoryDisplay = async () => {
 
   buttonsContainer.appendChild(allButton) // Ajouter le bouton "Tout" au début du conteneur des boutons
 
+  // Création des Boutons de Catégorie
   categories.forEach(catData => {
     const button = document.createElement('button')
     button.textContent = catData.name
     button.dataset.categoryId = catData.id
     button.addEventListener('click', () => {
       const categoryId = button.dataset.categoryId
-      showImagesByCategory(categoryId)
+      //  Filtrage des Images par Catégorie
+      showImagesByCategory(categoryId) 
     })
-
     buttonsContainer.appendChild(button)
   })
 
