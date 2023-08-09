@@ -20,45 +20,62 @@ const showAllCaptions = () => {
     caption.style.display = 'block' // Afficher la légende
   })
 }
+
+// Déclarez la variable buttonsContainer en dehors de la fonction categoryDisplay
+let buttonsContainer;
+
 // Fonction pour afficher les catégories dans l'interface utilisateur
 const categoryDisplay = async () => {
-  const categories = await fetchCategories()
-  const portfolio = document.querySelector('#portfolio')
+  const categories = await fetchCategories();
+  const portfolio = document.querySelector('#portfolio');
 
-  const allButton = document.createElement('button')
-  allButton.textContent = 'Tous'
-  allButton.dataset.categoryId = 'all'
+  const allButton = document.createElement('button');
+  allButton.textContent = 'Tous';
+  allButton.dataset.categoryId = 'all';
   allButton.addEventListener('click', () => {
-    showAllImages()
-    showAllCaptions() 
-  })
+    showAllImages();
+    showAllCaptions();
+    setActiveButton(allButton); // Ajout de la mise en forme pour le bouton "Tous"
+  });
 
-  const title = portfolio.querySelector('h2')
+  const title = portfolio.querySelector('h2');
 
-  const buttonsContainer = document.createElement('div')
-  buttonsContainer.classList.add('buttons-container') // Ajout d'une classe pour le style CSS
-  buttonsContainer.style.display = 'flex' // Utilisation de flexbox
-  buttonsContainer.style.justifyContent = 'center' // Centrer les éléments horizontalement
+  buttonsContainer = document.createElement('div'); // Affectez buttonsContainer ici
+  buttonsContainer.classList.add('buttons-container');
+  buttonsContainer.style.display = 'flex';
+  buttonsContainer.style.justifyContent = 'center';
 
   if (isUserLoggedIn()) {
-    buttonsContainer.style.visibility = 'hidden' // Masquer les boutons si connecté(e)
+    buttonsContainer.style.visibility = 'hidden';
   }
 
-  buttonsContainer.appendChild(allButton) // Ajouter le bouton "Tout" au début du conteneur des boutons
+  buttonsContainer.appendChild(allButton);
 
   // Création des Boutons de Catégorie
   categories.forEach(catData => {
-    const button = document.createElement('button')
-    button.textContent = catData.name
-    button.dataset.categoryId = catData.id
+    const button = document.createElement('button');
+    button.textContent = catData.name;
+    button.dataset.categoryId = catData.id;
     button.addEventListener('click', () => {
-      const categoryId = button.dataset.categoryId
-      //  Filtrage des Images par Catégorie
-      showImagesByCategory(categoryId) 
-    })
-    buttonsContainer.appendChild(button)
-  })
+      const categoryId = button.dataset.categoryId;
+      showImagesByCategory(categoryId);
+      setActiveButton(button); // Ajout de la mise en forme pour le bouton de catégorie
+    });
+    buttonsContainer.appendChild(button);
+  });
 
-  portfolio.insertBefore(buttonsContainer, title.nextElementSibling) // Insérer le conteneur des boutons juste après le titre h2
-}
+  portfolio.insertBefore(buttonsContainer, title.nextElementSibling);
+};
+// Ajout de la classe active au bouton cliqué et mise à jour des styles
+const setActiveButton = (button) => {
+  buttonsContainer.querySelectorAll('button').forEach(btn => {
+    btn.classList.remove('active');
+    btn.style.backgroundColor = '';
+    btn.style.color = '';
+  });
+  button.classList.add('active');
+  button.style.backgroundColor = '#1D6154'; // Vert foncé
+  button.style.color = 'white'; // Texte en blanc
+};
+
 categoryDisplay();
