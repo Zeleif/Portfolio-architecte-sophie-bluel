@@ -244,7 +244,7 @@ function handlePhotoAdded(event) {
   addPhotoToGallery(photo, imageDisplay);
 }
 
-// Ajouter l'écouteur d'événement "photoAdded" en dehors de la fonction openModal
+// Ajout écouteur d'événement "photoAdded"
 document.addEventListener('photoAdded', handlePhotoAdded);
 
 function openModal() {

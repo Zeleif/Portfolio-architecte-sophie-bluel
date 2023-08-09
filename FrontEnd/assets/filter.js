@@ -61,5 +61,4 @@ const categoryDisplay = async () => {
 
   portfolio.insertBefore(buttonsContainer, title.nextElementSibling) // Insérer le conteneur des boutons juste après le titre h2
 }
-// Appeler la fonction pour afficher les catégories dans l'interface utilisateur
-categoryDisplay()
+categoryDisplay();
