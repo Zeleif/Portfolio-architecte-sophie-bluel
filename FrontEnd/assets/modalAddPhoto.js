@@ -9,7 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalAddPhoto = document.querySelector('.modal-add-photo')
   const galleryContainer = document.getElementById('gallery')
 
-// Fonction pour ajouter une nouvelle photo à la galerie modale
+  // Au chargement de la page, vérifiez s'il y a des informations de photo stockées localement
+  const storedPhoto = localStorage.getItem('newPhoto')
+  if (storedPhoto) {
+    const parsedPhoto = JSON.parse(storedPhoto)
+    addPhotoToModal(parsedPhoto)
+    localStorage.removeItem('newPhoto') // Supprimez les données après utilisation
+  }
+
+  // Fonction pour ajouter une nouvelle photo à la galerie modale
   function addPhotoToModal (photo) {
     const imageContainer = document.createElement('div')
     imageContainer.classList.add('image-container')
@@ -41,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     imageContainer.appendChild(editText)
     galleryContainer.appendChild(imageContainer)
   }
- // Fonction pour effectuer l'ajout de la photo en soumettant le formulaire
+  // Fonction pour effectuer l'ajout de la photo en soumettant le formulaire
   async function addPhoto () {
     const photoTitle = addPhotoTitleInput.value
     const photoCategory = addPhotoCategoryInput.value
@@ -63,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (response.ok) {
         const newPhoto = await response.json()
+        localStorage.setItem('newPhoto', JSON.stringify(newPhoto)) // Stockez les informations de la nouvelle photo
 
         // Cacher les éléments d'ajout de photo
         const addBtnLabel = document.getElementById('addBtnLabel')
@@ -94,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error(error)
     }
   }
- // Attacher le gestionnaire d'événements au clic du bouton "Valider" pour appeler la fonction addPhoto
+  // Attacher le gestionnaire d'événements au clic du bouton "Valider" pour appeler la fonction addPhoto
   addPhotoButton.addEventListener('click', async event => {
     event.preventDefault()
     addPhoto()
@@ -107,78 +116,111 @@ document.addEventListener('DOMContentLoaded', () => {
       closeModaleFunc() // Fermez simplement la modale d'ajout de photo
     })
   }
- // Fonction pour fermer la modale d'ajout de photo
+  // Fonction pour fermer la modale d'ajout de photo
   function closeModaleFunc () {
     modalAddPhoto.classList.remove('active')
     fileInput.value = '' // Réinitialiser le champ de téléchargement
     previewImg.style.display = 'none'
   }
- // Attacher les gestionnaires d'événements pour fermer la modale lorsque l'utilisateur clique sur les éléments de fermeture
+  // Attacher les gestionnaires d'événements pour fermer la modale lorsque l'utilisateur clique sur les éléments de fermeture
   closeModale.addEventListener('click', closeModaleFunc)
   overlay.addEventListener('click', closeModaleFunc)
-   // Gestionnaire d'événements pour le champ de fichier pour effectuer des vérifications lorsqu'un fichier est sélectionné
+  // Gestionnaire d'événements pour le champ de fichier pour effectuer des vérifications lorsqu'un fichier est sélectionné
   fileInput.addEventListener('change', handleFileInputChange)
 
   // Fonction pour vérifier si l'extension du fichier est autorisée
-function isFileAllowed(fileName) {
-  const allowedExtensions = ['png', 'jpeg', 'jpg'];
-  const fileExtension = fileName.split('.').pop().toLowerCase();
-  return allowedExtensions.includes(fileExtension);
-}
-// Fonction pour gérer le clic sur le bouton "Valider"
-function handleAddPhoto() {
-  const title = document.getElementById('add-photo-title').value.trim();
-  const category = document.getElementById('add-photo-category').value.trim();
-  const fileInput = document.getElementById('file');
-
-  // Vérifier si le titre et/ou la catégorie sont vides
-  if (!title || !category) {
-    alert('Veuillez remplir le titre et la catégorie avant de valider.');
-    return;
+  function isFileAllowed (fileName) {
+    const allowedExtensions = ['png', 'jpeg', 'jpg']
+    const fileExtension = fileName.split('.').pop().toLowerCase()
+    return allowedExtensions.includes(fileExtension)
   }
+  // Fonction pour gérer le clic sur le bouton "Valider"
+  function handleAddPhoto () {
+    const title = document.getElementById('add-photo-title').value.trim()
+    const category = document.getElementById('add-photo-category').value.trim()
+    const fileInput = document.getElementById('file')
 
-  // Vérifier si un fichier a été sélectionné
-  if (fileInput.files.length === 0) {
-    alert('Veuillez sélectionner une photo.');
-    return;
+    // Vérifier si le titre et/ou la catégorie sont vides
+    if (!title || !category) {
+      alert('Veuillez remplir le titre et la catégorie avant de valider.')
+      return
+    }
+    // Vérifier si un fichier a été sélectionné
+    if (fileInput.files.length === 0) {
+      alert('Veuillez sélectionner une photo.')
+      return
+    }
+    // Vérifier si le fichier est autorisé
+    if (!isFileAllowed(fileInput.files[0].name)) {
+      alert(
+        "Erreur : le fichier sélectionné n'est pas autorisé. Seuls les fichiers PNG et JPEG sont autorisés."
+      )
+      return
+    }
   }
+  // Attacher le gestionnaire d'événements au clic du bouton "Valider"
+  addPhotoButton.addEventListener('click', handleAddPhoto)
 
-  // Vérifier si le fichier est autorisé
-  if (!isFileAllowed(fileInput.files[0].name)) {
-    alert('Erreur : le fichier sélectionné n\'est pas autorisé. Seuls les fichiers PNG et JPEG sont autorisés.');
-    return;
+  let fileSelected = false;
+  let currentImageUrl = '';
+  let previousImageUrl = '';
+  
+  function updateAddPhotoButton() {
+    const title = document.getElementById('add-photo-title').value.trim();
+    const category = document.getElementById('add-photo-category').value.trim();
+  
+    const isFieldsFilled =
+      (fileSelected || currentImageUrl !== '' || previousImageUrl !== '') &&
+      title !== '' &&
+      category !== '';
+    addPhotoButton.disabled = !isFieldsFilled;
+    if (isFieldsFilled) {
+      addBtnLabel.style.opacity = '0';
+      addPhotoButton.classList.add('valid-btn');
+    } else {
+      addPhotoButton.classList.remove('valid-btn');
+    }
   }
-}
-
-// Attacher le gestionnaire d'événements au clic du bouton "Valider"
-addPhotoButton.addEventListener('click', handleAddPhoto);
-
-function handleFileInputChange() {
-  const file = fileInput.files[0];
-  previewImg.style.visibility = 'visible';
-  const imageUrl = URL.createObjectURL(file);
-  previewImg.src = imageUrl;
-
-  if (file.size > 4 * 1024 * 1024) {
-    alert('La taille de la photo est trop importante (limite : 4 Mo).');
-    fileInput.value = ''; // Réinitialiser le champ de téléchargement
-    previewImg.style.display = 'none';
-    addPhotoButton.disabled = true;
-    return;
-  }
-
-  // vérifier l'extension du fichier
-  if (!isFileAllowed(file.name)) {
-    alert('Erreur : le fichier sélectionné n\'est pas autorisé. Seuls les fichiers PNG et JPEG sont autorisés.');
-    fileInput.value = ''; // Réinitialiser le champ de téléchargement
-    previewImg.style.display = 'none';
-    addPhotoButton.disabled = true;
-    return;
-  }
-  // Le fichier est autorisé, vous pouvez activer le bouton pour ajouter la photo ici
-  addPhotoButton.disabled = false;
-}
-
+  // fonction pour gérer l'ajout de photo dans la preview
+  function handleFileInputChange () {
+    const file = fileInput.files[0]
+  
+    if (file) {
+      currentImageUrl = URL.createObjectURL(file);
+      previewImg.style.visibility = 'visible';
+      previewImg.src = currentImageUrl;
+      fileSelected = true;
+  
+      if (file.size > 4 * 1024 * 1024) {
+        alert('La taille de la photo est trop importante (limite : 4 Mo).');
+        return;
+      }
+  
+      if (!isFileAllowed(file.name)) {
+        alert(
+          "Erreur : le fichier sélectionné n'est pas autorisé. Seuls les fichiers PNG et JPEG sont autorisés."
+        );
+        return;
+      }
+  
+      addBtnLabel.style.opacity = '0';
+    } else {
+      // Réinitialiser la preview et faire réapparaître le addBtnLabel
+      currentImageUrl = '';
+      previewImg.style.visibility = 'hidden';
+      addBtnLabel.style.opacity = '1';
+      fileSelected = false;
+    }
+  
+    updateAddPhotoButton();
+  } 
+  
+  // Nouvelle gestion du clic sur l'image
+previewImg.addEventListener('click', () => {
+  // Cliquez sur le champ de fichier pour ouvrir à nouveau la boîte de dialogue de sélection de fichiers
+  fileInput.click();
+});
+     
   // Récupérer la référence du menu déroulant des catégories
   const categorySelect = document.querySelector('#add-photo-category')
 
@@ -191,7 +233,7 @@ function handleFileInputChange() {
       categorySelect.appendChild(option)
     })
   }
-// Fonction pour récupérer les catégories de photos depuis le serveur et générer les options du menu déroulant de catégories
+  // Fonction pour récupérer les catégories de photos depuis le serveur et générer les options du menu déroulant de catégories
   async function fetchCategoriesPhoto () {
     try {
       const response = await fetch('http://localhost:5678/api/categories', {
@@ -227,7 +269,7 @@ function handleFileInputChange() {
     isCategoryChanged = true
     checkFields()
   }
- // Fonction pour vérifier si tous les champs du formulaire sont remplis pour activer le bouton "Valider"
+  // Fonction pour vérifier si tous les champs du formulaire sont remplis pour activer le bouton "Valider"
   function checkFields () {
     const photoFile = fileInput.files[0]
     const title = addPhotoTitleInput.value.trim()
