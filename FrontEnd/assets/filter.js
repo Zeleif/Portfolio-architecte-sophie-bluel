@@ -21,7 +21,7 @@ const showAllCaptions = () => {
   })
 }
 
-// Déclarez la variable buttonsContainer en dehors de la fonction categoryDisplay
+//  variable buttonsContainer
 let buttonsContainer;
 
 // Fonction pour afficher les catégories dans l'interface utilisateur
@@ -31,6 +31,8 @@ const categoryDisplay = async () => {
   const allButton = document.createElement('button');
   allButton.textContent = 'Tous';
   allButton.dataset.categoryId = 'all';
+  allButton.style.backgroundColor = '#1D6154'; // Vert foncé
+  allButton.style.color = 'white'; // Texte en blanc
   allButton.addEventListener('click', () => {
     showAllImages();
     showAllCaptions();
@@ -38,7 +40,7 @@ const categoryDisplay = async () => {
   });
 
   const title = portfolio.querySelector('h2');
-  buttonsContainer = document.createElement('div'); // Affectez buttonsContainer ici
+  buttonsContainer = document.createElement('div'); 
   buttonsContainer.classList.add('buttons-container');
   buttonsContainer.style.display = 'flex';
   buttonsContainer.style.gap = '15px'
@@ -71,6 +73,7 @@ const setActiveButton = (button) => {
   });
   button.classList.add('active');
   button.style.backgroundColor = '#1D6154'; // Vert foncé
-  button.style.color = 'white'; // Texte en blanc
+  button.style.color = 'white'; // Texte en blanc 
 };
 categoryDisplay();
+
