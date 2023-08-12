@@ -22,14 +22,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function generateCategoryOptions(categories) {
     categorySelect.innerHTML = '';
-
+    // Ajouter une option vide par défaut
+    const emptyOption = document.createElement('option');
+    emptyOption.value = ''; // Laissez la valeur vide
+    emptyOption.textContent = ''; // Laissez le texte vide
+    categorySelect.appendChild(emptyOption);
+  
+    // Ajouter les options de catégorie
     categories.forEach(category => {
       const option = document.createElement('option');
       option.value = category.id;
       option.textContent = category.name;
       categorySelect.appendChild(option);
     });
-  }
+  }  
 
   // Récupérer les éléments du DOM et les stocker dans des variables
   const closeModale = document.getElementById('close-modale')
