@@ -7,21 +7,26 @@ const updateStyles = (loggedIn) => {
 
 const handleLogin = () => {
   const loginForm = document.querySelector('#login-form');
+  const errorMessageElement = document.querySelector('#error-message'); // Nouvelle ligne
+
   loginForm.addEventListener('submit', async event => {
     event.preventDefault();
     const email = document.querySelector('#Email').value;
     const password = document.querySelector('#password').value;
+
+    errorMessageElement.textContent = ''; // Réinitialiser le message d'erreur
+
     try {
       const response = await authenticate(email, password);
       localStorage.setItem('token', response.token);
       window.location.href = './index.html';
     } catch (error) {
       console.error("Erreur lors de l'authentification :", error);
-      // Affichez un message d'erreur à l'utilisateur
+      errorMessageElement.textContent = 'Mail ou mot de passe erroné'; // Afficher le message d'erreur
+      errorMessageElement.style.color = 'red'
     }
   });
 };
-
 const authenticate = async (email, password) => {
   const response = await fetch('http://localhost:5678/api/users/login', {
     method: 'POST',
