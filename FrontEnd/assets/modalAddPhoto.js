@@ -1,4 +1,39 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  const categorySelect = document.querySelector('#add-photo-category');
+
+  try {
+    const categories = await fetchCategoriesPhoto();
+    generateCategoryOptions(categories);
+  } catch (error) {
+    console.error(error);
+  }
+
+  async function fetchCategoriesPhoto() {
+    const response = await fetch('http://localhost:5678/api/categories', {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Échec de la récupération des catégories');
+    }
+
+    return response.json();
+  }
+
+  function generateCategoryOptions(categories) {
+    categorySelect.innerHTML = '';
+
+    categories.forEach(category => {
+      const option = document.createElement('option');
+      option.value = category.id;
+      option.textContent = category.name;
+      categorySelect.appendChild(option);
+    });
+  }
+
   // Récupérer les éléments du DOM et les stocker dans des variables
   const closeModale = document.getElementById('close-modale')
   const addPhotoButton = document.getElementById('add-photo-button')
@@ -103,12 +138,20 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error(error)
     }
   }
+  
   // Attacher le gestionnaire d'événements au clic du bouton "Valider" pour appeler la fonction addPhoto
   addPhotoButton.addEventListener('click', async event => {
     event.preventDefault()
     addPhoto()
   })
 
+  function resetImagePreview() {
+    previewImg.src = ''; // Réinitialiser la source de l'image
+    previewImg.alt = ''; // Réinitialiser le texte alternatif de l'image
+    addBtnLabel.style.opacity = '1';
+    addPhotoTitleInput.value = ''; // Réinitialiser le champ de titre
+  addPhotoCategoryInput.value = ''; // Réinitialiser le champ de catégorie
+  }
   // Ajoutez un événement au bouton de retour pour revenir à la galerie modale
   const backButton = document.querySelector('.return-arrow')
   if (backButton) {
@@ -119,9 +162,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fonction pour fermer la modale d'ajout de photo
   function closeModaleFunc () {
     modalAddPhoto.classList.remove('active')
+    addPhotoButton.classList.add('visible')
     fileInput.value = '' // Réinitialiser le champ de téléchargement
-    previewImg.style.display = 'none'
+    resetImagePreview()
   }
+  
   // Attacher les gestionnaires d'événements pour fermer la modale lorsque l'utilisateur clique sur les éléments de fermeture
   closeModale.addEventListener('click', closeModaleFunc)
   overlay.addEventListener('click', closeModaleFunc)
@@ -190,19 +235,16 @@ document.addEventListener('DOMContentLoaded', () => {
       previewImg.style.visibility = 'visible';
       previewImg.src = currentImageUrl;
       fileSelected = true;
-  
       if (file.size > 4 * 1024 * 1024) {
         alert('La taille de la photo est trop importante (limite : 4 Mo).');
         return;
       }
-  
       if (!isFileAllowed(file.name)) {
         alert(
           "Erreur : le fichier sélectionné n'est pas autorisé. Seuls les fichiers PNG et JPEG sont autorisés."
         );
         return;
       }
-  
       addBtnLabel.style.opacity = '0';
     } else {
       // Réinitialiser la preview et faire réapparaître le addBtnLabel
@@ -211,7 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
       addBtnLabel.style.opacity = '1';
       fileSelected = false;
     }
-  
     updateAddPhotoButton();
   } 
   
@@ -220,44 +261,6 @@ previewImg.addEventListener('click', () => {
   // Cliquez sur le champ de fichier pour ouvrir à nouveau la boîte de dialogue de sélection de fichiers
   fileInput.click();
 });
-     
-  // Récupérer la référence du menu déroulant des catégories
-  const categorySelect = document.querySelector('#add-photo-category')
-
-  // Fonction pour générer les options du menu déroulant des catégories
-  function generateCategoryOptions (categories) {
-    categories.forEach(category => {
-      const option = document.createElement('option')
-      option.value = category.id
-      option.textContent = category.name
-      categorySelect.appendChild(option)
-    })
-  }
-  // Fonction pour récupérer les catégories de photos depuis le serveur et générer les options du menu déroulant de catégories
-  async function fetchCategoriesPhoto () {
-    try {
-      const response = await fetch('http://localhost:5678/api/categories', {
-        method: 'GET',
-        headers: {
-          authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      })
-
-      if (response.ok) {
-        const categories = await response.json()
-        generateCategoryOptions(categories) // Appel de la fonction pour générer les options
-        addPhotoTitleInput.addEventListener('input', checkFields)
-        addPhotoCategoryInput.addEventListener('change', checkFields)
-      } else {
-        throw new Error('Échec de la récupération des catégories')
-      }
-    } catch (error) {
-      console.error(error)
-      throw error
-    }
-  }
-  // Appel de la fonction pour récupérer les catégories et générer les options
-  fetchCategoriesPhoto()
 
   let isPhotoFilled = false
   let isTitleFilled = false

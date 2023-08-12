@@ -28,7 +28,6 @@ let buttonsContainer;
 const categoryDisplay = async () => {
   const categories = await fetchCategories();
   const portfolio = document.querySelector('#portfolio');
-
   const allButton = document.createElement('button');
   allButton.textContent = 'Tous';
   allButton.dataset.categoryId = 'all';
@@ -43,7 +42,7 @@ const categoryDisplay = async () => {
   buttonsContainer = document.createElement('div'); // Affectez buttonsContainer ici
   buttonsContainer.classList.add('buttons-container');
   buttonsContainer.style.display = 'flex';
-  buttonsContainer.style.justifyContent = 'center';
+  buttonsContainer.style.gap = '15px'
 
   if (isUserLoggedIn()) {
     buttonsContainer.style.visibility = 'hidden';
