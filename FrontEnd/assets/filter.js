@@ -38,16 +38,13 @@ const categoryDisplay = async () => {
   });
 
   const title = portfolio.querySelector('h2');
-
   buttonsContainer = document.createElement('div'); // Affectez buttonsContainer ici
   buttonsContainer.classList.add('buttons-container');
   buttonsContainer.style.display = 'flex';
   buttonsContainer.style.gap = '15px'
-
   if (isUserLoggedIn()) {
     buttonsContainer.style.visibility = 'hidden';
   }
-
   buttonsContainer.appendChild(allButton);
 
   // Création des Boutons de Catégorie
@@ -76,5 +73,4 @@ const setActiveButton = (button) => {
   button.style.backgroundColor = '#1D6154'; // Vert foncé
   button.style.color = 'white'; // Texte en blanc
 };
-
 categoryDisplay();

@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const categorySelect = document.querySelector('#add-photo-category');
-
   try {
     const categories = await fetchCategoriesPhoto();
     generateCategoryOptions(categories);
@@ -15,11 +14,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         authorization: `Bearer ${localStorage.getItem('token')}`
       }
     });
-
     if (!response.ok) {
       throw new Error('Échec de la récupération des catégories');
     }
-
     return response.json();
   }
 
@@ -53,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Fonction pour ajouter une nouvelle photo à la galerie modale
-  function addPhotoToModal (photo) {
+  function addPhotoToModal(photo) {
     const imageContainer = document.createElement('div')
     imageContainer.classList.add('image-container')
     imageContainer.dataset.id = photo.id // Ajouter un attribut data-id avec l'ID de la photo
@@ -85,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     galleryContainer.appendChild(imageContainer)
   }
   // Fonction pour effectuer l'ajout de la photo en soumettant le formulaire
-  async function addPhoto () {
+  async function addPhoto() {
     const photoTitle = addPhotoTitleInput.value
     const photoCategory = addPhotoCategoryInput.value
     const photoFile = fileInput.files[0]
@@ -138,7 +135,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error(error)
     }
   }
-  
+
   // Attacher le gestionnaire d'événements au clic du bouton "Valider" pour appeler la fonction addPhoto
   addPhotoButton.addEventListener('click', async event => {
     event.preventDefault()
@@ -150,7 +147,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     previewImg.alt = ''; // Réinitialiser le texte alternatif de l'image
     addBtnLabel.style.opacity = '1';
     addPhotoTitleInput.value = ''; // Réinitialiser le champ de titre
-  addPhotoCategoryInput.value = ''; // Réinitialiser le champ de catégorie
+    addPhotoCategoryInput.value = ''; // Réinitialiser le champ de catégorie
   }
   // Ajoutez un événement au bouton de retour pour revenir à la galerie modale
   const backButton = document.querySelector('.return-arrow')
@@ -160,13 +157,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     })
   }
   // Fonction pour fermer la modale d'ajout de photo
-  function closeModaleFunc () {
+  function closeModaleFunc() {
     modalAddPhoto.classList.remove('active')
     addPhotoButton.classList.add('visible')
     fileInput.value = '' // Réinitialiser le champ de téléchargement
     resetImagePreview()
   }
-  
+
   // Attacher les gestionnaires d'événements pour fermer la modale lorsque l'utilisateur clique sur les éléments de fermeture
   closeModale.addEventListener('click', closeModaleFunc)
   overlay.addEventListener('click', closeModaleFunc)
@@ -174,13 +171,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   fileInput.addEventListener('change', handleFileInputChange)
 
   // Fonction pour vérifier si l'extension du fichier est autorisée
-  function isFileAllowed (fileName) {
+  function isFileAllowed(fileName) {
     const allowedExtensions = ['png', 'jpeg', 'jpg']
     const fileExtension = fileName.split('.').pop().toLowerCase()
     return allowedExtensions.includes(fileExtension)
   }
   // Fonction pour gérer le clic sur le bouton "Valider"
-  function handleAddPhoto () {
+  function handleAddPhoto() {
     const title = document.getElementById('add-photo-title').value.trim()
     const category = document.getElementById('add-photo-category').value.trim()
     const fileInput = document.getElementById('file')
@@ -209,11 +206,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   let fileSelected = false;
   let currentImageUrl = '';
   let previousImageUrl = '';
-  
+
   function updateAddPhotoButton() {
     const title = document.getElementById('add-photo-title').value.trim();
     const category = document.getElementById('add-photo-category').value.trim();
-  
+
     const isFieldsFilled =
       (fileSelected || currentImageUrl !== '' || previousImageUrl !== '') &&
       title !== '' &&
@@ -227,9 +224,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
   // fonction pour gérer l'ajout de photo dans la preview
-  function handleFileInputChange () {
+  function handleFileInputChange() {
     const file = fileInput.files[0]
-  
     if (file) {
       currentImageUrl = URL.createObjectURL(file);
       previewImg.style.visibility = 'visible';
@@ -254,13 +250,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       fileSelected = false;
     }
     updateAddPhotoButton();
-  } 
-  
+  }
+
   // Nouvelle gestion du clic sur l'image
-previewImg.addEventListener('click', () => {
-  // Cliquez sur le champ de fichier pour ouvrir à nouveau la boîte de dialogue de sélection de fichiers
-  fileInput.click();
-});
+  previewImg.addEventListener('click', () => {
+    // Cliquez sur le champ de fichier pour ouvrir à nouveau la boîte de dialogue de sélection de fichiers
+    fileInput.click();
+  });
 
   let isPhotoFilled = false
   let isTitleFilled = false
@@ -268,12 +264,12 @@ previewImg.addEventListener('click', () => {
   let isCategoryChanged = false
 
   // Fonction pour vérifier si le champ de la catégorie est rempli manuellement
-  function checkCategoryChange () {
+  function checkCategoryChange() {
     isCategoryChanged = true
     checkFields()
   }
   // Fonction pour vérifier si tous les champs du formulaire sont remplis pour activer le bouton "Valider"
-  function checkFields () {
+  function checkFields() {
     const photoFile = fileInput.files[0]
     const title = addPhotoTitleInput.value.trim()
     const category = addPhotoCategoryInput.value
@@ -287,7 +283,6 @@ previewImg.addEventListener('click', () => {
       addPhotoButton.classList.remove('valid-btn') // Supprimer la classe pour revenir à la couleur par défaut
     }
   }
-
   // Écoutez les événements input sur le champ du titre
   addPhotoTitleInput.addEventListener('input', checkFields)
 

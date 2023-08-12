@@ -1,5 +1,5 @@
 function fetchImages() {
-   // Fonction pour effectuer une requête GET au serveur pour récupérer les images
+  // Fonction pour effectuer une requête GET au serveur pour récupérer les images
   return new Promise((resolve, reject) => {
     fetch('http://localhost:5678/api/works', {
       method: 'GET',
@@ -21,7 +21,7 @@ function fetchImages() {
 }
 
 const imageDisplay = async () => {
-   // Fonction asynchrone pour afficher les images
+  // Fonction asynchrone pour afficher les images
   try {
     const images = await fetchImages();// Récupérer les images à partir du serveur en utilisant await
     const galleryDiv = document.querySelector('.gallery');
@@ -154,21 +154,21 @@ function deleteImage(imageId, imageContainer) {
     method: 'DELETE',
     headers: headers,
   })
-  .then(response => {
-    if (response.status === 204) {
-      // Suppression réussie, mettre à jour la galerie principale
-      imageIdsSet.delete(imageId); // Supprimer l'ID de l'image de l'ensemble
-      galleryContainer.removeChild(imageContainer); // Supprimer le conteneur de l'image du DOM
+    .then(response => {
+      if (response.status === 204) {
+        // Suppression réussie, mettre à jour la galerie principale
+        imageIdsSet.delete(imageId); // Supprimer l'ID de l'image de l'ensemble
+        galleryContainer.removeChild(imageContainer); // Supprimer le conteneur de l'image du DOM
 
-      // Mettre à jour la galerie principale après la suppression
-      imageDisplay();
-    } else {
-      throw new Error("Impossible de supprimer l'image");
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
+        // Mettre à jour la galerie principale après la suppression
+        imageDisplay();
+      } else {
+        throw new Error("Impossible de supprimer l'image");
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
 }
 // fonction pour supprimer l'image de la modale
 function deletePhotoFromModal(imageId) {
@@ -199,23 +199,23 @@ function deletePhotoFromModal(imageId) {
     method: 'DELETE',
     headers: headers,
   })
-  .then(response => {
-    if (response.status === 204) {
-      // Suppression réussie, mettre à jour la galerie principale
-      imageIdsSet.delete(imageId); // Supprimer l'ID de l'image de l'ensemble
+    .then(response => {
+      if (response.status === 204) {
+        // Suppression réussie, mettre à jour la galerie principale
+        imageIdsSet.delete(imageId); // Supprimer l'ID de l'image de l'ensemble
 
-      // Notez que vous devez également supprimer l'image de la galerie principale si elle est affichée
-      const imageContainer = document.querySelector(`.image-container[data-id="${imageId}"]`);
-      if (imageContainer) {
-        galleryContainer.removeChild(imageContainer); // Supprimer le conteneur de l'image du DOM
+        // Notez que vous devez également supprimer l'image de la galerie principale si elle est affichée
+        const imageContainer = document.querySelector(`.image-container[data-id="${imageId}"]`);
+        if (imageContainer) {
+          galleryContainer.removeChild(imageContainer); // Supprimer le conteneur de l'image du DOM
+        }
+      } else {
+        throw new Error("Impossible de supprimer l'image");
       }
-    } else {
-      throw new Error("Impossible de supprimer l'image");
-    }
-  })
-  .catch(error => {
-    console.error(error);
-  });
+    })
+    .catch(error => {
+      console.error(error);
+    });
 }
 
 
@@ -269,7 +269,7 @@ overlay.addEventListener('click', closeModalFunc);
 
 const btnAddPhoto = document.querySelector('#btn-add-photo');
 
-btnAddPhoto.addEventListener('click', function() {
+btnAddPhoto.addEventListener('click', function () {
   const modalAddPhoto = document.querySelector('.modal-add-photo');
   modalAddPhoto.classList.add('active');
 });
