@@ -141,7 +141,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error(error)
     }
   }
-
   // Attacher le gestionnaire d'événements au clic du bouton "Valider" pour appeler la fonction addPhoto
   addPhotoButton.addEventListener('click', async event => {
     event.preventDefault()
@@ -178,7 +177,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Fonction pour vérifier si l'extension du fichier est autorisée
   function isFileAllowed(fileName) {
-    const allowedExtensions = ['png', 'jpeg', 'jpg']
+    const allowedExtensions = ['png','jpg']
     const fileExtension = fileName.split('.').pop().toLowerCase()
     return allowedExtensions.includes(fileExtension)
   }
@@ -201,7 +200,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Vérifier si le fichier est autorisé
     if (!isFileAllowed(fileInput.files[0].name)) {
       alert(
-        "Erreur : le fichier sélectionné n'est pas autorisé. Seuls les fichiers PNG et JPEG sont autorisés."
+        "Erreur : le fichier sélectionné n'est pas autorisé. Seuls les fichiers PNG et JPG sont autorisés."
       )
       return
     }
@@ -242,10 +241,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
       if (!isFileAllowed(file.name)) {
-        alert(
-          "Erreur : le fichier sélectionné n'est pas autorisé. Seuls les fichiers PNG et JPEG sont autorisés."
-        );
-        return;
+        alert("Erreur : le fichier sélectionné n'est pas autorisé. Seuls les fichiers PNG et JPG sont autorisés.");
+        return; // Arrêter l'exécution ici en cas d'erreur
       }
       addBtnLabel.style.opacity = '0';
     } else {
@@ -257,7 +254,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     updateAddPhotoButton();
   }
-
   // Nouvelle gestion du clic sur l'image
   previewImg.addEventListener('click', () => {
     // Cliquez sur le champ de fichier pour ouvrir à nouveau la boîte de dialogue de sélection de fichiers
