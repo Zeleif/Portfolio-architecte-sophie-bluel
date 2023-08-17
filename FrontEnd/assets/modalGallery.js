@@ -1,3 +1,28 @@
+// Fonction pour gérer l'affichage du contenu en fonction de la connexion de l'utilisateur
+function toggleContentAuthentication() {
+  const modalHeader = document.getElementById('modal__header');
+
+  // Vérifier si l'utilisateur est authentifié
+  const authToken = localStorage.getItem('token');
+  if (authToken) {
+    // Afficher l'élément modal__header
+    if (modalHeader) {
+      modalHeader.style.display = 'block';
+    }
+  } else {
+    // Cacher l'élément modal__header
+    if (modalHeader) {
+      modalHeader.style.display = 'none';
+    }
+  }
+}
+// Appeler la fonction pour gérer la visibilité de l'élément modal__header
+toggleContentAuthentication();
+
+// Appeler la fonction lors du chargement de la page
+document.addEventListener('DOMContentLoaded', toggleContentAuthentication);
+
+
 function fetchImages() {
   // Fonction pour effectuer une requête GET au serveur pour récupérer les images
   return new Promise((resolve, reject) => {
@@ -156,10 +181,10 @@ function deleteImage(imageId, imageContainer) {
   })
     .then(response => {
       if (response.status === 204) {
+        console.log(response.status)
         // Suppression réussie, mettre à jour la galerie principale
         imageIdsSet.delete(imageId); // Supprimer l'ID de l'image de l'ensemble
         galleryContainer.removeChild(imageContainer); // Supprimer le conteneur de l'image du DOM
-
         // Mettre à jour la galerie principale après la suppression
         imageDisplay();
       } else {
