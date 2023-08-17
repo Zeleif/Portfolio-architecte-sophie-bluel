@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         body: formData
       })
       if (response.ok) {
+        console.log(response.ok)
         const newPhoto = await response.json()
         localStorage.setItem('newPhoto', JSON.stringify(newPhoto)) // Stockez les informations de la nouvelle photo
 

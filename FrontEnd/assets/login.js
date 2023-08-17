@@ -58,5 +58,6 @@ window.addEventListener('load', () => {
     updateStyles(false);
   }
   handleLogin();
+  
 });
 
