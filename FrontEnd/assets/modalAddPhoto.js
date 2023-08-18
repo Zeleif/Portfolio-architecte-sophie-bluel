@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (error) {
     console.error(error)
   }
+  // Fonction pour récupérer les catégories à partir du serveur
   async function fetchCategoriesPhoto () {
     const response = await fetch('http://localhost:5678/api/categories', {
       method: 'GET',
@@ -44,12 +45,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   const modalAddPhoto = document.querySelector('.modal-add-photo')
   const galleryContainer = document.getElementById('gallery')
 
-  // Au chargement de la page, vérifiez s'il y a des informations de photo stockées localement
+  // Au chargement de la page, vérification s'il y a des informations de photo stockées localement
   const storedPhoto = localStorage.getItem('newPhoto')
   if (storedPhoto) {
     const parsedPhoto = JSON.parse(storedPhoto)
     addPhotoToModal(parsedPhoto)
-    localStorage.removeItem('newPhoto') // Supprimez les données après utilisation
+    localStorage.removeItem('newPhoto') // Supprimer les données après utilisation
   }
 
   // Fonction pour ajouter une nouvelle photo à la galerie modale
@@ -85,27 +86,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     galleryContainer.appendChild(imageContainer)
   }
   // Fonction pour effectuer l'ajout de la photo en soumettant le formulaire
-  async function addPhoto() {
-    handleFileInputChange(); // Appeler la vérification de la taille et du type de fichier
-  
-    if (!fileSelected) {
-      return; // Arrêter l'ajout si aucun fichier n'est sélectionné
-    }
-  
-    const photoTitle = addPhotoTitleInput.value;
-    const photoCategory = addPhotoCategoryInput.value;
-    const photoFile = fileInput.files[0];
-  
+  async function addPhoto () {
+    const photoTitle = addPhotoTitleInput.value
+    const photoCategory = addPhotoCategoryInput.value
+    const photoFile = fileInput.files[0]
+
     // Vérifier si le fichier est autorisé avant d'envoyer la requête
     if (!isFileAllowed(photoFile.name)) {
-      alert("Erreur : le fichier sélectionné n'est pas autorisé. Seuls les fichiers PNG et JPG sont autorisés.");
-      return; // Empêcher l'ajout du fichier non autorisé
-    }
-  
-    // Vérifier si la taille du fichier est trop grande
-    if (photoFile.size > 4 * 1024 * 1024) {
-      alert('La taille de la photo est trop importante (limite : 4 Mo).');
-      return; // Arrêter l'exécution ici en cas de taille de photo trop importante
+      alert(
+        "Erreur : le fichier sélectionné n'est pas autorisé. Seuls les fichiers PNG et JPG sont autorisés."
+      )
+      return // Empêcher l'ajout du fichier non autorisé
     }
     const formData = new FormData()
     formData.append('title', photoTitle)
@@ -168,11 +159,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     addPhotoTitleInput.value = '' // Réinitialiser le champ de titre
     addPhotoCategoryInput.value = '' // Réinitialiser le champ de catégorie
   }
-  // Ajoutez un événement au bouton de retour pour revenir à la galerie modale
+  // Ajout d'un événement au bouton de retour pour revenir à la galerie modale
   const backButton = document.querySelector('.return-arrow')
   if (backButton) {
     backButton.addEventListener('click', () => {
-      closeModaleFunc() // Fermez simplement la modale d'ajout de photo
+      closeModaleFunc() // Fermeture de la modale d'ajout de photo
     })
   }
   // Fonction pour fermer la modale d'ajout de photo
@@ -217,21 +208,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Attacher le gestionnaire d'événements au clic du bouton "Valider"
   addPhotoButton.addEventListener('click', handleAddPhoto)
 
-  function updateAddPhotoButton () {
-    const title = addPhotoTitleInput.value.trim()
-    const category = addPhotoCategoryInput.value.trim()
-    const file = fileInput.files[0]
+  // Fonction pour mettre à jour le bouton "Valider"
+function updateAddPhotoButton() {
+  const title = addPhotoTitleInput.value.trim();
+  const category = addPhotoCategoryInput.value.trim();
+  const file = fileInput.files[0];
 
-    const isFieldsFilled = title !== '' && category !== '' && file !== undefined
+  const isFieldsFilled = title !== '' && category !== '' && file !== undefined;
+  const isFileAllowedType = file === undefined || isFileAllowed(file.name);
+  const isFileSizeValid = file === undefined || file.size <= 4 * 1024 * 1024;
 
-    addPhotoButton.disabled = !isFieldsFilled
+  addPhotoButton.disabled = !isFieldsFilled || !isFileAllowedType || !isFileSizeValid;
 
-    if (isFieldsFilled) {
-      addPhotoButton.classList.add('valid-btn') // Ajouter la classe pour rendre le bouton vert
-    } else {
-      addPhotoButton.classList.remove('valid-btn') // Supprimer la classe pour revenir à la couleur par défaut
-    }
+  if (isFieldsFilled && isFileAllowedType && isFileSizeValid) {
+    addPhotoButton.classList.add('valid-btn'); // Ajouter la classe pour rendre le bouton vert
+  } else {
+    addPhotoButton.classList.remove('valid-btn'); // Supprimer la classe pour revenir à la couleur par défaut
   }
+}
 
   addPhotoTitleInput.addEventListener('input', updateAddPhotoButton)
   addPhotoCategoryInput.addEventListener('change', updateAddPhotoButton)
@@ -249,7 +243,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       fileSelected = true;
       if (file.size > 4 * 1024 * 1024) {
         alert('La taille de la photo est trop importante (limite : 4 Mo).');
-        return; // Arrêter l'exécution ici en cas de taille de photo trop importante
+        return;
       }
       if (!isFileAllowed(file.name)) {
         alert("Erreur : le fichier sélectionné n'est pas autorisé. Seuls les fichiers PNG et JPG sont autorisés.");
@@ -265,16 +259,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     updateAddPhotoButton();
   }
-  
   // Nouvelle gestion du clic sur l'image
   previewImg.addEventListener('click', () => {
     // Cliquez sur le champ de fichier pour ouvrir à nouveau la boîte de dialogue de sélection de fichiers
     fileInput.click();
   });
-
-  function isFileAllowed (fileName) {
-    const allowedExtensions = ['png', 'jpg']
-    const fileExtension = fileName.split('.').pop().toLowerCase()
-    return allowedExtensions.includes(fileExtension)
-  }
 })
